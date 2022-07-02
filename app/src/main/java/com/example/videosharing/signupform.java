@@ -21,8 +21,8 @@ public class signupform extends AppCompatActivity {
     //mDatabase = FirebaseDatabase.getInstance().getReference();
 
     // Write a message to the database
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference();
+   // FirebaseDatabase database = FirebaseDatabase.getInstance();
+    //DatabaseReference myRef = database.getReference();
 
 
     EditText firstName;
@@ -76,7 +76,7 @@ public class signupform extends AppCompatActivity {
         Log.i("abc", "here: ");
         User user = new User(firstName.toString(), email.toString(),password.toString());
 
-        myRef.child("database").child("Users").child("username").setValue("name");
+        //myRef.child("database").child("Users").child("username").setValue("name");
     }
 
 }
