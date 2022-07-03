@@ -24,14 +24,6 @@ public class signupform extends AppCompatActivity {
 
 
 
-
-    //mDatabase = FirebaseDatabase.getInstance().getReference();
-
-    // Write a message to the database
-   // FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //DatabaseReference myRef = database.getReference();
-
-
     EditText firstName;
     EditText password;
     EditText email;
@@ -84,7 +76,6 @@ public class signupform extends AppCompatActivity {
     public void writeNewUser() {
         User user = new User(firstName.toString(), email.toString(),password.toString());
 
-        UserRef.setValue(user).addOnSuccessListener(new onSuccessListener<void>()
     }
 
 }
