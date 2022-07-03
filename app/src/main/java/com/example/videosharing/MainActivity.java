@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            Log.i("123", dataSnapshot.child("password").getValue()+" onDataChange: ");
-
                             if(dataSnapshot.exists()){
                                 if(dataSnapshot.child("password").getValue().equals(passwordEditText.getText().toString())) {
                                     String toastMessage = "Username: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
@@ -65,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
                                     // user logged in
 
 
+                                    Intent intent = new Intent(v.getContext(),MainChat.class);
+                                    startActivity(intent);
 
 
-                                    
+
+
                                 }
                                 else{
                                     Toast.makeText(getApplicationContext(),  "password is incorrect", Toast.LENGTH_SHORT).show();
