@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,10 +56,23 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
+                            Log.i("123", dataSnapshot.child("password").getValue()+" onDataChange: ");
+
                             if(dataSnapshot.exists()){
-                                String toastMessage = "Username: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
-                                Toast.makeText(getApplicationContext(), toastMessage+"\nYou are logged in!", Toast.LENGTH_SHORT).show();
-                                // user logged in
+                                if(dataSnapshot.child("password").getValue().equals(passwordEditText.getText().toString())) {
+                                    String toastMessage = "Username: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
+                                    Toast.makeText(getApplicationContext(), toastMessage + "\nYou are logged in!", Toast.LENGTH_SHORT).show();
+                                    // user logged in
+
+
+
+
+                                    
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),  "password is incorrect", Toast.LENGTH_SHORT).show();
+
+                                }
 
                             } else {
                                 // User does not exist. NOW call createUserWithEmailAndPassword
