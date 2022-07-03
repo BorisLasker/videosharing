@@ -18,6 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class signupform extends AppCompatActivity {
 
+    // creating a variable for our
+    // Database Reference for Firebase.
+    private DatabaseReference UserRef;
+
+
+
+
     //mDatabase = FirebaseDatabase.getInstance().getReference();
 
     // Write a message to the database
@@ -40,6 +47,8 @@ public class signupform extends AppCompatActivity {
         password = findViewById(R.id.editPass);
 
         register = findViewById(R.id.buttonAcount);
+
+       UserRef = FirebaseDatabase.getInstance().getReference().child("User");
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,10 +82,9 @@ public class signupform extends AppCompatActivity {
         }
     }
     public void writeNewUser() {
-        Log.i("abc", "here: ");
         User user = new User(firstName.toString(), email.toString(),password.toString());
 
-        //myRef.child("database").child("Users").child("username").setValue("name");
+        UserRef.setValue(user).addOnSuccessListener(new onSuccessListener<void>()
     }
 
 }
