@@ -1,6 +1,7 @@
 package com.example.videosharing;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class signupform extends AppCompatActivity {
     EditText password;
     EditText email;
     Button register;
-
+    View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,11 +88,9 @@ public class signupform extends AppCompatActivity {
         }
     }
     public void writeNewUser() {
+
         User user = new User(firstName.getText().toString(), email.getText().toString(),password.getText().toString());
-
-
             int  id =   email.getText().toString().hashCode();
-
         databaseReference.child("User").child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,33 +101,20 @@ public class signupform extends AppCompatActivity {
                     // Let the user know he needs to pick another username.
                 } else {
                     // User does not exist. NOW call createUserWithEmailAndPassword
-
                     //Saving the user
                     databaseReference.child("User").child(String.valueOf(id)).setValue(user);
                     //displaying a success toast
                     Toast.makeText(signupform.this, "user added", Toast.LENGTH_LONG).show();
-
-
+                    Intent intent = new Intent(view.getContext(),MainActivity.class);
+                    startActivity(intent);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
-
-
-
-
-
-
-
     }
-
-
-
 }
 
 
