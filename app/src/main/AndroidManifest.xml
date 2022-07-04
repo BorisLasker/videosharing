@@ -22,7 +22,7 @@
         </activity>
 
 
-        <activity android:name=".signupform"
+        <activity android:name=".Signupform"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

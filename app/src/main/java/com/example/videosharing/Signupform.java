@@ -4,18 +4,14 @@ package com.example.videosharing;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class signupform extends AppCompatActivity {
+public class Signupform extends AppCompatActivity {
 
     // creating a variable for our
     // Firebase Database.
@@ -96,7 +92,7 @@ public class signupform extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.exists()){
-                    Toast.makeText(signupform.this, "user already exists", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Signupform.this, "user already exists", Toast.LENGTH_LONG).show();
                     // use "username" already exists
                     // Let the user know he needs to pick another username.
                 } else {
@@ -104,7 +100,7 @@ public class signupform extends AppCompatActivity {
                     //Saving the user
                     databaseReference.child("User").child(String.valueOf(id)).setValue(user);
                     //displaying a success toast
-                    Toast.makeText(signupform.this, "user added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Signupform.this, "user added", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     startActivity(intent);
                 }
