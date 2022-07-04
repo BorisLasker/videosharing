@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginForm extends AppCompatActivity {
     private EditText EmailEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     // creating a variable for our Database
     // Reference for Firebase.
     DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,37 +51,34 @@ public class MainActivity extends AppCompatActivity {
                 if (EmailEditText.getText().length() > 0 && passwordEditText.getText().length() > 0) {
 
 
-                    int  id =   EmailEditText.getText().toString().hashCode();
+                    int id = EmailEditText.getText().toString().hashCode();
                     databaseReference.child("User").child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            if(dataSnapshot.exists()){
-                                if(dataSnapshot.child("password").getValue().equals(passwordEditText.getText().toString())) {
+                            if (dataSnapshot.exists()) {
+                                if (dataSnapshot.child("password").getValue().equals(passwordEditText.getText().toString())) {
                                     String toastMessage = "Username: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
                                     Toast.makeText(getApplicationContext(), toastMessage + "\nYou are logged in!", Toast.LENGTH_SHORT).show();
                                     // user logged in
 
 
-                                    Intent intent = new Intent(v.getContext(),MainChat.class);
+                                    Intent intent = new Intent(v.getContext(), Main.class);
                                     startActivity(intent);
 
 
-
-
-
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),  "password is incorrect", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "password is incorrect", Toast.LENGTH_SHORT).show();
 
                                 }
 
                             } else {
                                 // User does not exist. NOW call createUserWithEmailAndPassword
-                                Toast.makeText(MainActivity.this, "You need to register first!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginForm.this, "You need to register first!", Toast.LENGTH_LONG).show();
 
                             }
                         }
+
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
 
@@ -98,12 +96,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(v.getContext(), Signupform.class);
+                Intent intent = new Intent(v.getContext(), SignUpForm.class);
                 startActivity(intent);
 
 

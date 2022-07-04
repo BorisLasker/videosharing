@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Chats extends Fragment {
+public class Media extends Fragment {
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chats, container, false);
+        return inflater.inflate(R.layout.fragment_media, container, false);
     }
 
 

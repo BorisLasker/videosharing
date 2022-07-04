@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class Signupform extends AppCompatActivity {
+public class SignUpForm extends AppCompatActivity {
 
     // creating a variable for our
     // Firebase Database.
@@ -92,7 +92,7 @@ public class Signupform extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.exists()){
-                    Toast.makeText(Signupform.this, "user already exists", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUpForm.this, "user already exists", Toast.LENGTH_LONG).show();
                     // use "username" already exists
                     // Let the user know he needs to pick another username.
                 } else {
@@ -100,8 +100,8 @@ public class Signupform extends AppCompatActivity {
                     //Saving the user
                     databaseReference.child("User").child(String.valueOf(id)).setValue(user);
                     //displaying a success toast
-                    Toast.makeText(Signupform.this, "user added", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(view.getContext(),MainActivity.class);
+                    Toast.makeText(SignUpForm.this, "user added", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(view.getContext(), LoginForm.class);
                     startActivity(intent);
                 }
             }
