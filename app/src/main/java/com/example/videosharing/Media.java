@@ -6,10 +6,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -106,4 +111,48 @@ public class Media extends Fragment {
 
         messagesList = new ArrayList<>();
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
+
+        inflater.inflate(R.menu.upload, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+
+            case R.id.upload:
+
+                showDialog();
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
+    }
+    private void showDialog() {
+
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+       // SeekBarDialogFragment alertDialog =SeekBarDialogFragment.newInstance("Set the number precision","","OK","Cancel",seekStatus);
+        //alertDialog.show(fm, "fragment_alert");
+
+
+
+
+    }
+
+
+
+
+
 }
