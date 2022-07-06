@@ -1,5 +1,6 @@
 package com.example.videosharing;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,8 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,6 +31,8 @@ public class Media extends Fragment {
     private DatabaseReference myRef;
 
     private ArrayList<Messages> messagesList;
+    private RecyclerAdapter recyclerAdapter;
+    private Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,12 +63,44 @@ public class Media extends Fragment {
 
     private void GetDataFromFirebase() {
 
+        Query query = myRef.child("message");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+                ClearALl();
+                for (DataSnapshot snapshot : datasnapshot.getChildren()){
+                    Messages messages = new Messages();
+                    messages.setImageUrl(snapshot.child("image").getValue().toString());
+
+                    messagesList.add(messages);
+
+
+
+                }
+                recyclerAdapter = new RecyclerAdapter(getContext().getApplicationContext(), messagesList);
+                recyclerView.setAdapter(recyclerAdapter);
+                recyclerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
 
     }
 
     private void ClearALl(){
         if(messagesList != null){
             messagesList.clear();
+
+            if(recyclerAdapter != null){
+                recyclerAdapter.notifyDataSetChanged();
+            }
 
         }
 

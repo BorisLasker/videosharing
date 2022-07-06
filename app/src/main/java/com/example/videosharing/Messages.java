@@ -13,6 +13,10 @@ public class Messages {
 
     }
 
+    public Messages() {
+
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
