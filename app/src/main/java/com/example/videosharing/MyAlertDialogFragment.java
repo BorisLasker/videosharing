@@ -41,7 +41,6 @@ public class MyAlertDialogFragment extends DialogFragment {
                 getActivity().moveTaskToBack(true);
                 getActivity().finish();
 
-                //System.exit(0);
 
             }
 
