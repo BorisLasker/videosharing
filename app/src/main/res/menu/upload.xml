@@ -4,7 +4,7 @@
     <item
         android:id="@+id/upload"
 
-        android:icon="@drawable/uploadicon__"
+        android:icon="@drawable/set_removebg_preview"
         android:title="upload"
         app:showAsAction="always" />
 </menu>

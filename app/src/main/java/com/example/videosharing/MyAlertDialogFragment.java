@@ -39,7 +39,7 @@ public class MyAlertDialogFragment extends DialogFragment {
 
             public void onClick(DialogInterface dialog, int which) {
 
-              System.exit(0);
+                System.exit(0);
 
             }
 

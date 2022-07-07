@@ -112,7 +112,6 @@ public class Media extends Fragment {
         messagesList = new ArrayList<>();
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
 
@@ -143,8 +142,8 @@ public class Media extends Fragment {
 
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
-       // SeekBarDialogFragment alertDialog =SeekBarDialogFragment.newInstance("Set the number precision","","OK","Cancel",seekStatus);
-        //alertDialog.show(fm, "fragment_alert");
+        MyAlertDialogFragment alertDialog =MyAlertDialogFragment.newInstance("Closing the application","Are you sure","Yes","No");
+        alertDialog.show(fm, "fragment_alert");
 
 
 
