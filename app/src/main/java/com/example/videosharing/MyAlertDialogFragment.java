@@ -38,8 +38,10 @@ public class MyAlertDialogFragment extends DialogFragment {
             @Override
 
             public void onClick(DialogInterface dialog, int which) {
+                getActivity().moveTaskToBack(true);
+                getActivity().finish();
 
-                System.exit(0);
+                //System.exit(0);
 
             }
 

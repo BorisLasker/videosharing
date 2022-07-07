@@ -52,6 +52,7 @@ public class LoginForm extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (EmailEditText.getText().length() > 0 && passwordEditText.getText().length() > 0) {
 
 
