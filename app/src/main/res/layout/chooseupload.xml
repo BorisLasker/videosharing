@@ -38,4 +38,11 @@
         android:id="@+id/imgView"
         android:layout_width="384dp"
         android:layout_height="381dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="92dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp" />
 </RelativeLayout>

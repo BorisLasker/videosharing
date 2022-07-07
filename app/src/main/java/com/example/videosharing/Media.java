@@ -75,7 +75,7 @@ public class Media extends Fragment {
                 ClearALl();
                 for (DataSnapshot snapshot : datasnapshot.getChildren()){
                     Messages messages = new Messages();
-                    messages.setImageUrl(snapshot.child("image").getValue().toString());
+                    messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
 
                     messagesList.add(messages);
 
@@ -111,47 +111,5 @@ public class Media extends Fragment {
 
         messagesList = new ArrayList<>();
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
-
-        inflater.inflate(R.menu.upload, menu);
-
-        super.onCreateOptionsMenu(menu, inflater);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-
-
-            case R.id.upload:
-
-                showDialog();
-                return true;
-
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-
-    }
-    private void showDialog() {
-
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        MyAlertDialogFragment alertDialog =MyAlertDialogFragment.newInstance("Closing the application","Are you sure","Yes","No");
-        alertDialog.show(fm, "fragment_alert");
-
-
-
-
-    }
-
-
-
-
 
 }

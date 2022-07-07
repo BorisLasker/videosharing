@@ -26,11 +26,11 @@ public class LoginForm extends AppCompatActivity {
     private Button registerButton;
 
 
-    FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDatabase;
 
     // creating a variable for our Database
     // Reference for Firebase.
-    DatabaseReference databaseReference;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
