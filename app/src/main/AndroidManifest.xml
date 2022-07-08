@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.videosharing">
+    package="com.example.MediaShare">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -13,7 +13,7 @@
         android:noHistory="true"
         android:theme="@style/Theme.Videosharing">
         <activity
-            android:name=".LoginForm"
+            android:name="com.example.MediaShare.LoginForm"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,14 +23,14 @@
         </activity>
 
 
-        <activity android:name=".SignUpForm"
+        <activity android:name="com.example.MediaShare.SignUpForm"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".Main"
+        <activity android:name="com.example.MediaShare.Main"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

@@ -1,4 +1,4 @@
-package com.example.videosharing;
+package com.example.MediaShare;
 
 import android.content.Context;
 import android.view.LayoutInflater;

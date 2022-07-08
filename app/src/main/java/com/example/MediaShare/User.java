@@ -1,4 +1,4 @@
-package com.example.videosharing;
+package com.example.MediaShare;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

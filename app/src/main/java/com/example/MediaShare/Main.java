@@ -1,4 +1,4 @@
-package com.example.videosharing;
+package com.example.MediaShare;
 
 import android.os.Bundle;
 import android.view.Menu;

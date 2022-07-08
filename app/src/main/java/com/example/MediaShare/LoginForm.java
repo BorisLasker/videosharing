@@ -1,4 +1,4 @@
-package com.example.videosharing;
+package com.example.MediaShare;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
