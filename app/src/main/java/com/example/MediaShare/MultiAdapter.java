@@ -106,4 +106,12 @@ public class MultiAdapter extends RecyclerView.Adapter {
             video_holder.videoView.start();
         }
     }
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if(holder.getItemViewType()==1){
+            VideoTypeViewHolder video_holder = ((VideoTypeViewHolder)holder);
+            video_holder.videoView.stopPlayback();
+        }
+    }
 }
