@@ -82,10 +82,11 @@ public class Media extends Fragment {
 
                     }
                     else if (messages.getImageUrl().contains(".mp4")){
-                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE,messages,"video") ;
+                        multiModel = new MultiModel(MultiModel.VIDEO_TYPE,messages,"video") ;
 
                     }
                     messagesList.add(multiModel);
+
 
 
 

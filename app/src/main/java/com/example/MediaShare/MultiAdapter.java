@@ -2,6 +2,7 @@ package com.example.MediaShare;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,19 +46,20 @@ public class MultiAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MultiModel object = dataSet.get(position);
+
         if(object!=null){
+
             switch (object.type){
+
                 case MultiModel.IMAGE_TYPE:
                     Glide.with(context)
                             .load(dataSet.get(position).data.getImageUrl())
                                  .into(  ((ImageTypeViewHolder)holder).imageView);
                     break;
                 case MultiModel.VIDEO_TYPE:
-                    ((VideoTypeViewHolder)holder).videoView.setVideoURI(Uri.parse(object.data.getImageUrl()));
-                    MediaController mediaController = new MediaController(context);
-                    mediaController.setAnchorView(((VideoTypeViewHolder)holder).videoView);
-                    ((VideoTypeViewHolder)holder).videoView.setMediaController(mediaController);
-                    ((VideoTypeViewHolder)holder).videoView.seekTo(100);
+                    VideoTypeViewHolder video_holder = ((VideoTypeViewHolder)holder);
+                    video_holder.videoView.setVideoPath(object.data.getImageUrl());
+                    video_holder.videoView.start();
                     break;
             }
         }
@@ -93,6 +95,15 @@ public class MultiAdapter extends RecyclerView.Adapter {
             default:
                 return -1;
 
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if(holder.getItemViewType()==1){
+            VideoTypeViewHolder video_holder = ((VideoTypeViewHolder)holder);
+            video_holder.videoView.start();
         }
     }
 }
