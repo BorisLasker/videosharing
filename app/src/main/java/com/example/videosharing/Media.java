@@ -35,8 +35,8 @@ public class Media extends Fragment {
 
     private DatabaseReference myRef;
 
-    private ArrayList<Messages> messagesList;
-    private RecyclerAdapter recyclerAdapter;
+    private ArrayList<MultiModel> messagesList;
+    private MultiAdapter recyclerAdapter;
     private Context mContext;
 
     @Override
@@ -76,13 +76,22 @@ public class Media extends Fragment {
                 for (DataSnapshot snapshot : datasnapshot.getChildren()){
                     Messages messages = new Messages();
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
+                    //TODO: POSSIBLE TYPES OF VIDEOS
+                    MultiModel multiModel = null;
+                    if (messages.getImageUrl().contains(".png") ||messages.getImageUrl().contains(".jpg")){
+                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE,messages,"image") ;
 
-                    messagesList.add(messages);
+                    }
+                    else if (messages.getImageUrl().contains(".mp4")){
+                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE,messages,"video") ;
+
+                    }
+                    messagesList.add(multiModel);
 
 
 
                 }
-                recyclerAdapter = new RecyclerAdapter(getContext().getApplicationContext(), messagesList);
+                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
 
