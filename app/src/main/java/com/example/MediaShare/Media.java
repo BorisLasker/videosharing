@@ -1,16 +1,19 @@
 package com.example.MediaShare;
-
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,8 +34,8 @@ public class Media extends Fragment {
 
     private DatabaseReference myRef;
 
-    private ArrayList<Messages> messagesList;
-    private RecyclerAdapter recyclerAdapter;
+    private ArrayList<MultiModel> messagesList;
+    private MultiAdapter recyclerAdapter;
     private Context mContext;
 
     @Override
@@ -72,13 +75,22 @@ public class Media extends Fragment {
                 for (DataSnapshot snapshot : datasnapshot.getChildren()){
                     Messages messages = new Messages();
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
+                    //TODO: POSSIBLE TYPES OF VIDEOS
+                    MultiModel multiModel = null;
+                    if (messages.getImageUrl().contains(".png") ||messages.getImageUrl().contains(".jpg")){
+                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE,messages,"image") ;
 
-                    messagesList.add(messages);
+                    }
+                    else if (messages.getImageUrl().contains(".mp4")){
+                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE,messages,"video") ;
+
+                    }
+                    messagesList.add(multiModel);
 
 
 
                 }
-                recyclerAdapter = new RecyclerAdapter(getContext().getApplicationContext(), messagesList);
+                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
 

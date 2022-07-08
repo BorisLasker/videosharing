@@ -64,7 +64,7 @@ public class Settings extends Fragment {
             public void onClick(View v) {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
+                galleryIntent.setType("image/* video/*");
                 startActivityForResult(galleryIntent , 2);
             }
         });
