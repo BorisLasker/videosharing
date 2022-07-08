@@ -1,91 +1,33 @@
 {
   "project_info": {
-    "project_number": "712002359370",
-    "project_id": "video-sharing-db0cb",
-    "storage_bucket": "video-sharing-db0cb.appspot.com"
+    "project_number": "123033322476",
+    "project_id": "share-d3560",
+    "storage_bucket": "share-d3560.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:712002359370:android:0ff6502055a54d671896b3",
-        "android_client_info": {
-          "package_name": "com.example.myapplication"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "712002359370-ihlkjmdqbl9n1eg9iuqf6rc2ev2u7l6e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBIEdrECeJDaaE8ORAgT3MOmNNgz3dTVCk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "712002359370-ihlkjmdqbl9n1eg9iuqf6rc2ev2u7l6e.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:712002359370:android:32d95f68f3abc77e1896b3",
-        "android_client_info": {
-          "package_name": "com.example.project"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "712002359370-ihlkjmdqbl9n1eg9iuqf6rc2ev2u7l6e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBIEdrECeJDaaE8ORAgT3MOmNNgz3dTVCk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "712002359370-ihlkjmdqbl9n1eg9iuqf6rc2ev2u7l6e.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:712002359370:android:a4ce209c9a210e8b1896b3",
+        "mobilesdk_app_id": "1:123033322476:android:9dceeac3240a5a462936c9",
         "android_client_info": {
           "package_name": "com.example.videosharing"
         }
       },
       "oauth_client": [
         {
-          "client_id": "712002359370-ihlkjmdqbl9n1eg9iuqf6rc2ev2u7l6e.apps.googleusercontent.com",
+          "client_id": "123033322476-0v0ivm9nissbrtnoab37g1davr4e4ang.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBIEdrECeJDaaE8ORAgT3MOmNNgz3dTVCk"
+          "current_key": "AIzaSyBqmeaHZPp2-DLAb6poMwLAc1-daMMFuno"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "712002359370-ihlkjmdqbl9n1eg9iuqf6rc2ev2u7l6e.apps.googleusercontent.com",
+              "client_id": "123033322476-0v0ivm9nissbrtnoab37g1davr4e4ang.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
