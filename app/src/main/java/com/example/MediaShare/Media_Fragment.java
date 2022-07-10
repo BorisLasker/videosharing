@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class Media extends Fragment  {
+public class Media_Fragment extends Fragment  {
 
 
     RecyclerView recyclerView;

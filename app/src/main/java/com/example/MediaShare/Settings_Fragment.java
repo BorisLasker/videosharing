@@ -28,7 +28,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class Settings extends Fragment {
+public class Settings_Fragment extends Fragment {
 
     private Button uploadBtn;
     private ImageView imageView;

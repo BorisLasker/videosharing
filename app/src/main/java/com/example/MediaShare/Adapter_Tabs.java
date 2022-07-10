@@ -9,13 +9,13 @@ import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class Adapter extends FragmentPagerAdapter {
+public class Adapter_Tabs extends FragmentPagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
 
 
-    public Adapter(@NonNull FragmentManager fm, int behavior) {
+    public Adapter_Tabs(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 

@@ -26,9 +26,9 @@ public class Main extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        Adapter adapter = new Adapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new Media(),"Media");
-        adapter.addFragment(new Settings(),"Settings");
+        Adapter_Tabs adapter = new Adapter_Tabs(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        adapter.addFragment(new Media_Fragment(),"Media");
+        adapter.addFragment(new Settings_Fragment(),"Settings");
         viewPager.setAdapter(adapter);
 
     }
