@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class Media extends Fragment {
+public class Media extends Fragment  {
 
 
     RecyclerView recyclerView;
@@ -37,7 +37,11 @@ public class Media extends Fragment {
     private ArrayList<MultiModel> messagesList;
     private MultiAdapter recyclerAdapter;
     private Context mContext;
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,7 +95,7 @@ public class Media extends Fragment {
 
 
                 }
-                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
+                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext() );
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
 
@@ -102,6 +106,7 @@ public class Media extends Fragment {
 
             }
         });
+
 
 
 
