@@ -1,4 +1,5 @@
 package com.example.MediaShare;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -6,14 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class Media_Fragment extends Fragment  {
+public class Media_Fragment extends Fragment {
 
 
     RecyclerView recyclerView;
@@ -37,11 +37,10 @@ public class Media_Fragment extends Fragment  {
     private ArrayList<MultiModel> messagesList;
     private MultiAdapter recyclerAdapter;
     private Context mContext;
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
+
+    public Media_Fragment() {
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,43 +60,53 @@ public class Media_Fragment extends Fragment  {
         recyclerView.setHasFixedSize(true);
 
         myRef = FirebaseDatabase.getInstance().getReference();
-
-        messagesList = new ArrayList<>();
-
         ClearALl();
+        messagesList = GetDataFromFirebase();
 
-        GetDataFromFirebase();
+
+        recyclerAdapter = new MultiAdapter(messagesList, getContext().getApplicationContext());
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(recyclerAdapter);
+
+                /*/
+                /remove specific country from the list
+
+                MultiModel message = messagesList.remove(position);
+                recyclerAdapter.setDataSet(messagesList);
+                recyclerView.setAdapter(recyclerAdapter);
+
+                 */
+
+
     }
 
-    private void GetDataFromFirebase() {
+    private ArrayList<MultiModel> GetDataFromFirebase() {
 
         Query query = myRef.child("message");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 ClearALl();
-                for (DataSnapshot snapshot : datasnapshot.getChildren()){
+                for (DataSnapshot snapshot : datasnapshot.getChildren()) {
                     Messages messages = new Messages();
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
                     //TODO: POSSIBLE TYPES OF VIDEOS
                     MultiModel multiModel = null;
-                    if (messages.getImageUrl().contains(".png") ||messages.getImageUrl().contains(".jpg")){
-                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE,messages,"image") ;
+                    if (messages.getImageUrl().contains(".png") || messages.getImageUrl().contains(".jpg")) {
+                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE, messages, "image");
 
-                    }
-                    else if (messages.getImageUrl().contains(".mp4")){
-                        multiModel = new MultiModel(MultiModel.VIDEO_TYPE,messages,"video") ;
+                    } else if (messages.getImageUrl().contains(".mp4")) {
+                        multiModel = new MultiModel(MultiModel.VIDEO_TYPE, messages, "video");
 
                     }
                     messagesList.add(multiModel);
 
 
-
-
                 }
-                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext() );
+                 recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
-                recyclerAdapter.notifyDataSetChanged();
+                 recyclerAdapter.notifyDataSetChanged();
 
             }
 
@@ -107,17 +116,16 @@ public class Media_Fragment extends Fragment  {
             }
         });
 
-
-
-
+        return messagesList;
 
     }
 
-    private void ClearALl(){
-        if(messagesList != null){
+
+    private void ClearALl() {
+        if (messagesList != null) {
             messagesList.clear();
 
-            if(recyclerAdapter != null){
+            if (recyclerAdapter != null) {
                 recyclerAdapter.notifyDataSetChanged();
             }
 
@@ -125,5 +133,6 @@ public class Media_Fragment extends Fragment  {
 
         messagesList = new ArrayList<>();
     }
+
 
 }

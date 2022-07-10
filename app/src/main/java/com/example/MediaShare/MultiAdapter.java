@@ -1,16 +1,14 @@
 package com.example.MediaShare;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,10 +20,12 @@ public class MultiAdapter extends RecyclerView.Adapter {
     private Context context;
     private int total_types;
 
+
     public MultiAdapter(ArrayList<MultiModel> dataSet, Context context) {
         this.dataSet = dataSet;
         this.context = context;
         this.total_types = dataSet.size();
+
     }
 
     @NonNull
@@ -55,6 +55,8 @@ public class MultiAdapter extends RecyclerView.Adapter {
                     Glide.with(context)
                             .load(dataSet.get(position).data.getImageUrl())
                                  .into(  ((ImageTypeViewHolder)holder).imageView);
+
+
                     break;
                 case MultiModel.VIDEO_TYPE:
                     VideoTypeViewHolder video_holder = ((VideoTypeViewHolder)holder);
@@ -62,6 +64,17 @@ public class MultiAdapter extends RecyclerView.Adapter {
                     video_holder.videoView.start();
                     break;
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    Info_Fragment info_fragment = new Info_Fragment();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction().replace(R.id.login,info_fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         }
     }
 
@@ -74,13 +87,16 @@ public class MultiAdapter extends RecyclerView.Adapter {
         ImageTypeViewHolder(View itemView){
             super(itemView);
             this.imageView = itemView.findViewById(R.id.imageView);
+
+
         }
     }
     public static class VideoTypeViewHolder extends RecyclerView.ViewHolder{
         VideoView videoView;
-        VideoTypeViewHolder(View itemView){
+        VideoTypeViewHolder(View itemView ){
             super(itemView);
             this.videoView = itemView.findViewById(R.id.videoView);
+
         }
     }
 
@@ -113,5 +129,13 @@ public class MultiAdapter extends RecyclerView.Adapter {
             VideoTypeViewHolder video_holder = ((VideoTypeViewHolder)holder);
             video_holder.videoView.stopPlayback();
         }
+    }
+
+    public ArrayList<MultiModel> getDataSet() {
+        return dataSet;
+    }
+
+    public void setDataSet(ArrayList<MultiModel> dataSet) {
+        this.dataSet = dataSet;
     }
 }
