@@ -94,6 +94,7 @@ public class Settings_Fragment extends Fragment {
 
             image = data.getData();
             imageView.setImageURI(image);
+            
 
         }
     }

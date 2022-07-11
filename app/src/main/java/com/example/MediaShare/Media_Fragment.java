@@ -66,10 +66,10 @@ public class Media_Fragment extends Fragment {
         messagesList = GetDataFromFirebase();
 
 
-        recyclerAdapter = new MultiAdapter(messagesList, getContext().getApplicationContext());
+        //recyclerAdapter = new MultiAdapter(messagesList, getContext().getApplicationContext());
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(recyclerAdapter);
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        //recyclerView.setAdapter(recyclerAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -119,9 +119,9 @@ public class Media_Fragment extends Fragment {
 
 
                 }
-                 recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
+                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
-                 recyclerAdapter.notifyDataSetChanged();
+                recyclerAdapter.notifyDataSetChanged();
 
             }
 
