@@ -28,6 +28,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Date;
+
 public class Settings_Fragment extends Fragment {
 
     private Button uploadBtn;
@@ -108,10 +110,13 @@ public class Settings_Fragment extends Fragment {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
 
-                        Messages model = new Messages(uri.toString());
+
+                        Messages model = new Messages(uri.toString(),currentDateTime);
                         String modelId = root.push().getKey();
                         root.child(modelId).setValue(model);
+
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(getActivity(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);

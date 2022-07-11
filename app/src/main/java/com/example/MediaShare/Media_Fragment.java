@@ -109,6 +109,7 @@ public class Media_Fragment extends Fragment {
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
                     //TODO: POSSIBLE TYPES OF VIDEOS
                     MultiModel multiModel = null;
+
                     if (messages.getImageUrl().contains(".png") || messages.getImageUrl().contains(".jpg")) {
                         multiModel = new MultiModel(MultiModel.IMAGE_TYPE, messages, "image");
 
