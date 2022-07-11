@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -78,17 +79,17 @@ public class Media_Fragment extends Fragment {
             }
             @Override
             public void onLongClick(View view, int position) {
-                Intent i = new Intent(getActivity(), Fragment_to_main.class);
-                startActivity(i);
+                Intent intent = new Intent(getActivity(), Fragment_to_main.class);
+                startActivity(intent);
                 ((Activity) getActivity()).overridePendingTransition(0, 0);
 
 
-
+                getActivity().startActivity(intent);
                 //MultiModel message = messagesList.remove(position);
               ///  recyclerAdapter.setDataSet(messagesList);
                // recyclerView.setAdapter(recyclerAdapter);
             }
-        }));
+                 }));
             }
 
 
