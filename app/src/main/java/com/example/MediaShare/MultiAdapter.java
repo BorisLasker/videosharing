@@ -1,6 +1,8 @@
 package com.example.MediaShare;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ public class MultiAdapter extends RecyclerView.Adapter {
     private ArrayList<MultiModel> dataSet;
     private Context context;
     private int total_types;
+    private View view;
 
 
     public MultiAdapter(ArrayList<MultiModel> dataSet, Context context) {
@@ -64,17 +67,7 @@ public class MultiAdapter extends RecyclerView.Adapter {
                     video_holder.videoView.start();
                     break;
             }
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    Info_Fragment info_fragment = new Info_Fragment();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction().replace(R.id.login,info_fragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            });
+
         }
     }
 

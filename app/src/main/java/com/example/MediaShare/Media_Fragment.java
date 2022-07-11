@@ -1,6 +1,8 @@
 package com.example.MediaShare;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -69,17 +71,30 @@ public class Media_Fragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(recyclerAdapter);
 
-                /*/
-                /remove specific country from the list
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
 
-                MultiModel message = messagesList.remove(position);
-                recyclerAdapter.setDataSet(messagesList);
-                recyclerView.setAdapter(recyclerAdapter);
+            }
+            @Override
+            public void onLongClick(View view, int position) {
+                Intent i = new Intent(getActivity(), Fragment_to_main.class);
+                startActivity(i);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
 
-                 */
 
 
-    }
+                //MultiModel message = messagesList.remove(position);
+              ///  recyclerAdapter.setDataSet(messagesList);
+               // recyclerView.setAdapter(recyclerAdapter);
+            }
+        }));
+            }
+
+
+
+
+
 
     private ArrayList<MultiModel> GetDataFromFirebase() {
 
