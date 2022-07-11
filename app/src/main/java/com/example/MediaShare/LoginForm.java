@@ -4,12 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,11 +24,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class LoginForm extends AppCompatActivity {
     private EditText EmailEditText;
     private EditText passwordEditText;
+    private CheckBox checkbox;
     private Button loginButton;
     private Button registerButton;
+    public Context context;
+
+    private static ArrayList<String> RememberMe;
+    private static String file_path;
+    public static final String FILE_NAME="RememberMe.txt";
 
 
     private FirebaseDatabase firebaseDatabase;
@@ -36,7 +58,9 @@ public class LoginForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.context = getApplicationContext();
 
+        checkbox = findViewById(R.id.checkBox);
         EmailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
@@ -48,6 +72,16 @@ public class LoginForm extends AppCompatActivity {
 
         // below line is used to get reference for our database.
         databaseReference = firebaseDatabase.getReference();
+
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        //boolean remember = prefs.getBoolean("check_box_preference_1",false);
+
+        file_path=context.getFilesDir().getAbsolutePath();
+
+
+        set_fields();
+
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +134,18 @@ public class LoginForm extends AppCompatActivity {
             }
         });
 
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(((CompoundButton) view).isChecked()){
+                    writeData(EmailEditText.getText() + "\n" + passwordEditText.getText());
+                } else {
+                    writeData("");
+                }
+            }
+        });
+
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +157,14 @@ public class LoginForm extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void set_fields() {
+        RememberMe = new ArrayList<String>(Arrays.asList(readFile().split("\n")));
+        if(RememberMe.size()>1){
+            EmailEditText.setText(RememberMe.get(0));
+            passwordEditText.setText(RememberMe.get(1));
+        }
     }
 
     @Override
@@ -145,6 +199,55 @@ public class LoginForm extends AppCompatActivity {
     }
 
 
+    @NonNull
+    private String readFile() {
+        StringBuilder text= null;
+        String line;
+        //Get the text file
+        File file = new File(file_path,File.separator+FILE_NAME);
+        try {
+            if(!file.exists())
+                file.createNewFile();
+
+            //Read text from file
+            InputStream inputStream=new FileInputStream(file);
+            text = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+
+            inputStream.close();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
+    }
+
+
+    //function for raw file////
+    public void writeData(String data) {
+        File directory = new File(file_path);
+        if(!directory.exists())
+            directory.mkdir();
+
+        File newFile = new File(file_path,File.separator+FILE_NAME);
+        try  {
+            //if(!newFile.exists())
+            newFile.createNewFile();
+
+            FileOutputStream fOut = new FileOutputStream(newFile,true);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fOut);
+            outputWriter.write(data+"\n");
+            outputWriter.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 }
