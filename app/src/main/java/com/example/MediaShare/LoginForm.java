@@ -102,6 +102,12 @@ public class LoginForm extends AppCompatActivity {
                                     // user logged in
 
 
+                                    if (checkbox.isChecked()){
+                                        writeData(EmailEditText.getText() + "\n" + passwordEditText.getText());
+                                    }
+                                    else writeData("");
+
+
                                     Intent intent = new Intent(v.getContext(), Main.class);
                                     startActivity(intent);
 
@@ -164,6 +170,7 @@ public class LoginForm extends AppCompatActivity {
         if(RememberMe.size()>1){
             EmailEditText.setText(RememberMe.get(0));
             passwordEditText.setText(RememberMe.get(1));
+            checkbox.setChecked(true);
         }
     }
 
@@ -236,10 +243,10 @@ public class LoginForm extends AppCompatActivity {
 
         File newFile = new File(file_path,File.separator+FILE_NAME);
         try  {
-            //if(!newFile.exists())
-            newFile.createNewFile();
+            if(!newFile.exists())
+                newFile.createNewFile();
 
-            FileOutputStream fOut = new FileOutputStream(newFile,true);
+            FileOutputStream fOut = new FileOutputStream(newFile,false);
             OutputStreamWriter outputWriter=new OutputStreamWriter(fOut);
             outputWriter.write(data+"\n");
             outputWriter.close();
