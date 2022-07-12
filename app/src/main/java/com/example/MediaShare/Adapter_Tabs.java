@@ -30,10 +30,7 @@ public class Adapter_Tabs extends FragmentPagerAdapter {
         return fragmentArrayList.size();
     }
 
-    public void addFragment(Fragment fragment , String title){
-        fragmentArrayList.add(fragment);
-        fragmentTitle.add(title);
-    }
+
 
 
     @Nullable
@@ -43,4 +40,14 @@ public class Adapter_Tabs extends FragmentPagerAdapter {
         return fragmentTitle.get(position);
 
     }
+
+    public void AddFragmentSettings(Settings_Fragment fragment, String title) {
+        fragmentArrayList.add(fragment);
+        fragmentTitle.add(title);
+    }
+    public void AddFragmentMedia(Media_Fragment fragment, String title) {
+        fragmentArrayList.add(fragment);
+        fragmentTitle.add(title);
+    }
+
 }

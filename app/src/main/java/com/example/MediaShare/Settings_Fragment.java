@@ -53,7 +53,6 @@ public class Settings_Fragment extends Fragment {
         if (message != null){
             email = message.getString("email");
             username = message.getString("username");
-            Log.i("123", email+username);
         }else {
         }
        return view;
@@ -125,7 +124,8 @@ public class Settings_Fragment extends Fragment {
 
 
 
-                        Messages model = new Messages(uri.toString(),currentDateTime);
+                        Messages model = new Messages(uri.toString(),currentDateTime,email,username);
+                        //int  id =   email.toString().hashCode();
                         String modelId = root.push().getKey();
                         root.child(modelId).setValue(model);
 

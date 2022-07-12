@@ -29,9 +29,7 @@ public class Main extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         Adapter_Tabs adapter = new Adapter_Tabs(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new Media_Fragment(),"Media");
-        adapter.addFragment(new Settings_Fragment(),"Settings");
-        viewPager.setAdapter(adapter);
+
 
         Intent intent = getIntent();
 
@@ -41,9 +39,20 @@ public class Main extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString("email",email);
+        bundle.putString("username",username);
+
         Settings_Fragment fragment = new Settings_Fragment();
         fragment.setArguments(bundle);
-     
+
+        Media_Fragment fragment_media = new Media_Fragment();
+        fragment_media.setArguments(bundle);
+
+
+
+
+        adapter.AddFragmentMedia(fragment_media,"Media");
+        adapter.AddFragmentSettings(fragment,"Settings");
+        viewPager.setAdapter(adapter);
 
     }
     @Override
