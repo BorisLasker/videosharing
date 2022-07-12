@@ -4,8 +4,12 @@ package com.example.MediaShare;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,10 +98,12 @@ public class Settings_Fragment extends Fragment {
 
             image = data.getData();
             imageView.setImageURI(image);
-            
 
         }
     }
+
+
+
 
     private void uploadToFirebase(Uri uri) {
 
