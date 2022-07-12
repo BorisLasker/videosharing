@@ -75,19 +75,18 @@ public class Media_Fragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), Fragment_to_main.class);
+                startActivity(intent);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+                getActivity().startActivity(intent);
 
             }
             @Override
             public void onLongClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), Fragment_to_main.class);
-                startActivity(intent);
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
 
-
-                getActivity().startActivity(intent);
-                //MultiModel message = messagesList.remove(position);
-              ///  recyclerAdapter.setDataSet(messagesList);
-               // recyclerView.setAdapter(recyclerAdapter);
+                MultiModel message = messagesList.remove(position);
+                recyclerAdapter.setDataSet(messagesList);
+                recyclerView.setAdapter(recyclerAdapter);
             }
                  }));
             }

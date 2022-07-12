@@ -3,22 +3,22 @@ package com.example.MediaShare;
 public class Messages {
 
 
-    private  String currentDateTimeString;
+    private  String currentDateTime;
     String imageUrl;
 
 
-    public String getCurrentDateTimeString() {
-        return currentDateTimeString;
+    public String getCurrentDateTime() {
+        return currentDateTime;
     }
 
-    public void setCurrentDateTimeString(String currentDateTimeString) {
-        this.currentDateTimeString = currentDateTimeString;
+    public void setCurrentDateTime(String currentDateTime) {
+        this.currentDateTime = currentDateTime;
     }
 
     public Messages(String imageUrl , String currentDateTimeString){
 
         this.imageUrl = imageUrl;
-        this.currentDateTimeString = currentDateTimeString;
+        this.currentDateTime= currentDateTimeString;
 
     }
 

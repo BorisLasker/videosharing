@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +41,22 @@ public class Settings_Fragment extends Fragment {
 
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference("message");
     private StorageReference reference = FirebaseStorage.getInstance().getReference();
-
+    String email;
+    String username;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_image, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings_image, container, false);
+        //email = getArguments().getString("email");
+         //username = getArguments().getString("username");
+        Bundle message = getArguments();
+        if (message != null){
+            email = message.getString("email");
+            username = message.getString("username");
+            Log.i("123", email+username);
+        }else {
+        }
+       return view;
     }
 
     @Override
@@ -111,6 +122,7 @@ public class Settings_Fragment extends Fragment {
                     @Override
                     public void onSuccess(Uri uri) {
                         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
+
 
 
                         Messages model = new Messages(uri.toString(),currentDateTime);

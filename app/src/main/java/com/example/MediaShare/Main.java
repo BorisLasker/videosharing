@@ -1,11 +1,13 @@
 package com.example.MediaShare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -30,6 +32,18 @@ public class Main extends AppCompatActivity {
         adapter.addFragment(new Media_Fragment(),"Media");
         adapter.addFragment(new Settings_Fragment(),"Settings");
         viewPager.setAdapter(adapter);
+
+        Intent intent = getIntent();
+
+        String email = intent.getStringExtra("email");
+        String username = intent.getStringExtra("username");
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("email",email);
+        Settings_Fragment fragment = new Settings_Fragment();
+        fragment.setArguments(bundle);
+     
 
     }
     @Override

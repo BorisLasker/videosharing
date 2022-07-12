@@ -44,22 +44,10 @@ public class Info_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         textView = view.findViewById(R.id.textView);
-        btn_delete = view.findViewById(R.id.btn_delete);
         textView.setText(txt);
-/*
-        btn_delete.setOnClickListener((View.OnClickListener) new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
 
-            }
-            @Override
-            public void onLongClick(View view, int position) {
 
-                MultiModel message = messagesList.remove(position);
-                recyclerAdapter.setDataSet(messagesList);
-                recyclerView.setAdapter(recyclerAdapter);
-            }
-        }));*/
+
     }
 
 
