@@ -41,6 +41,8 @@ public class Media_Fragment extends Fragment {
     private MultiAdapter recyclerAdapter;
     private Context mContext;
 
+    String email;
+
     public Media_Fragment() {
     }
 
@@ -48,7 +50,13 @@ public class Media_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_media, container, false);
+        View view = inflater.inflate(R.layout.fragment_media, container, false);
+        Bundle message = getArguments();
+        if (message != null){
+            email = message.getString("email");
+        }else {
+        }
+        return view;
     }
 
 
@@ -67,30 +75,33 @@ public class Media_Fragment extends Fragment {
         messagesList = GetDataFromFirebase();
 
 
-        //recyclerAdapter = new MultiAdapter(messagesList, getContext().getApplicationContext());
-
-        //recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        //recyclerView.setAdapter(recyclerAdapter);
-
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
+
+                Intent intent = new Intent(getActivity(), Fragment_to_main.class);
+
+                MultiModel info = messagesList.get(position);
+
+                intent.putExtra("time",info.data.getCurrentDateTime());
+                intent.putExtra("email",info.data.getEmail());
+                intent.putExtra("username",info.data.getUsername());
+                startActivity(intent);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+                getActivity().startActivity(intent);
+
             }
             @Override
             public void onLongClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), Fragment_to_main.class);
-                startActivity(intent);
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
 
-
-                getActivity().startActivity(intent);
-                //MultiModel message = messagesList.remove(position);
-              ///  recyclerAdapter.setDataSet(messagesList);
-               // recyclerView.setAdapter(recyclerAdapter);
+                MultiModel message = messagesList.remove(position);
+                recyclerAdapter.setDataSet(messagesList);
+                recyclerView.setAdapter(recyclerAdapter);
             }
                  }));
             }
+
 
 
 
@@ -107,8 +118,13 @@ public class Media_Fragment extends Fragment {
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) {
                     Messages messages = new Messages();
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
+                    messages.setCurrentDateTime(snapshot.child("currentDateTime").getValue().toString());
+                    messages.setUsername(snapshot.child("username").getValue().toString());
+                    messages.setEmail(snapshot.child("email").getValue().toString());
+
                     //TODO: POSSIBLE TYPES OF VIDEOS
                     MultiModel multiModel = null;
+
                     if (messages.getImageUrl().contains(".png") || messages.getImageUrl().contains(".jpg")) {
                         multiModel = new MultiModel(MultiModel.IMAGE_TYPE, messages, "image");
 

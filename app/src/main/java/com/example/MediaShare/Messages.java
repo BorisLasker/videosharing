@@ -3,19 +3,48 @@ package com.example.MediaShare;
 public class Messages {
 
 
+    private  String username;
+    private  String email;
+    private  String currentDateTime;
     String imageUrl;
 
-
-
-    public Messages(String imageUrl){
-
-        this.imageUrl = imageUrl;
-
+    public String getUsername() {
+        return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Messages(String imageUrl, String currentDateTime, String email, String username) {
+        this.imageUrl = imageUrl;
+        this.currentDateTime= currentDateTime;
+        this.email = email;
+        this.username = username;
+    }
+
+
+    public String getCurrentDateTime() {
+        return currentDateTime;
+    }
+
+    public void setCurrentDateTime(String currentDateTime) {
+        this.currentDateTime = currentDateTime;
+    }
+
 
     public Messages() {
 
     }
+
 
     public String getImageUrl() {
         return imageUrl;

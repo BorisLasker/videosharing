@@ -8,8 +8,7 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Size;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Date;
+
 public class Settings_Fragment extends Fragment {
 
     private Button uploadBtn;
@@ -42,12 +43,21 @@ public class Settings_Fragment extends Fragment {
 
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference("message");
     private StorageReference reference = FirebaseStorage.getInstance().getReference();
-
+    String email;
+    String username;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_image, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings_image, container, false);
+        //email = getArguments().getString("email");
+         //username = getArguments().getString("username");
+        Bundle message = getArguments();
+        if (message != null){
+            email = message.getString("email");
+            username = message.getString("username");
+        }else {
+        }
+       return view;
     }
 
     @Override
@@ -114,10 +124,15 @@ public class Settings_Fragment extends Fragment {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
 
-                        Messages model = new Messages(uri.toString());
+
+
+                        Messages model = new Messages(uri.toString(),currentDateTime,email,username);
+                        //int  id =   email.toString().hashCode();
                         String modelId = root.push().getKey();
                         root.child(modelId).setValue(model);
+
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(getActivity(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);

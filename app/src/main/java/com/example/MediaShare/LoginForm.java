@@ -97,10 +97,11 @@ public class LoginForm extends AppCompatActivity {
 
                             if (dataSnapshot.exists()) {
                                 if (dataSnapshot.child("password").getValue().equals(passwordEditText.getText().toString())) {
-                                    String toastMessage = "Username: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
+                                    String toastMessage = "Email: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
                                     Toast.makeText(getApplicationContext(), toastMessage + "\nYou are logged in!", Toast.LENGTH_SHORT).show();
                                     // user logged in
 
+                                    String username = dataSnapshot.child("username").getValue().toString();
 
                                     if (checkbox.isChecked()){
                                         writeData(EmailEditText.getText() + "\n" + passwordEditText.getText());
@@ -109,6 +110,8 @@ public class LoginForm extends AppCompatActivity {
 
 
                                     Intent intent = new Intent(v.getContext(), Main.class);
+                                    intent.putExtra("email", EmailEditText.getText().toString());
+                                    intent.putExtra("username", username);
                                     startActivity(intent);
 
 
