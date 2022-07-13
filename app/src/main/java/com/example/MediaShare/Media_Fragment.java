@@ -45,7 +45,7 @@ public class Media_Fragment extends Fragment {
     private DatabaseReference myRef;
 
     private ArrayList<MultiModel> messagesList;
-    private ArrayList<MultiModel>tempmessageList;
+    private ArrayList<MultiModel>tempmessageList = new ArrayList<MultiModel>();
 
     private MultiAdapter recyclerAdapter;
     private Context mContext;
@@ -83,8 +83,12 @@ public class Media_Fragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         myRef = FirebaseDatabase.getInstance().getReference();
-        ClearALl();
-        GetDataFromFirebase();
+        //-----SharedPreferences-----------
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+        //-----end-----------
+
 
         //-----SharedPreferences-----------
         remove_medialist = new ArrayList<>();
@@ -94,16 +98,9 @@ public class Media_Fragment extends Fragment {
             }
         }
 
+        ClearALl();
+        GetDataFromFirebase();
 
-
-
-        /*
-        for (MultiModel message : tempmessageList) {
-
-            messagesList.add(message);
-
-        }
-*/
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
 
@@ -178,18 +175,22 @@ public class Media_Fragment extends Fragment {
                     Log.i("1234","remodtxt"+ message);
 
                 }
-                /*
+
                 for (MultiModel message : messagesList) {
-                    Log.i("1234","here");
-                    if (!remove_medialist.contains(message.data.getImageUrl())) {
+                    Log.i("1234","list"+ message.data.getImageUrl());
+                    if (!remove_medialist.contains(message.data.getImageUrl())){
+                        Log.i("1234","here");
                         tempmessageList.add(message);
                     }
                 }
+                messagesList.clear();
                 for (MultiModel temp : tempmessageList) {
-                    Log.i("1234","templist"+ temp);
+                    messagesList.add(temp);
+                    Log.i("12345","templist"+ temp);
 
                 }
-*/
+
+
                 recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
