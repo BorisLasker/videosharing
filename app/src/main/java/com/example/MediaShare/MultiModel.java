@@ -15,6 +15,38 @@ public class MultiModel {
     public Messages data;
     public String text;
 
+    public static int getImageType() {
+        return IMAGE_TYPE;
+    }
+
+    public static int getVideoType() {
+        return VIDEO_TYPE;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public Messages getData() {
+        return data;
+    }
+
+    public void setData(Messages data) {
+        this.data = data;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public MultiModel(int type, Messages data, String text) {
         this.type = type;
         this.data = data;

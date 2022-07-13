@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -50,6 +51,7 @@ public class Media_Fragment extends Fragment {
     private Context mContext;
 
     String email;
+    private int flag=0;
 
     public Media_Fragment() {
     }
@@ -57,6 +59,7 @@ public class Media_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_media, container, false);
         Bundle message = getArguments();
@@ -91,13 +94,9 @@ public class Media_Fragment extends Fragment {
             }
         }
 
-        for (MultiModel message : messagesList) {
-            if (!remove_medialist.contains(message.data.getImageUrl())) {
-                tempmessageList.add(message);
-            }
-        }
 
-        messagesList.clear();
+
+
         /*
         for (MultiModel message : tempmessageList) {
 
@@ -107,6 +106,7 @@ public class Media_Fragment extends Fragment {
 */
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+
             @Override
             public void onClick(View view, int position) {
 
@@ -124,6 +124,7 @@ public class Media_Fragment extends Fragment {
             }
             @Override
             public void onLongClick(View view, int position) {
+
                 //-----SharedPreferences-----------
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -168,9 +169,27 @@ public class Media_Fragment extends Fragment {
 
                     }
                     messagesList.add(multiModel);
+                }
 
+                for (MultiModel message : messagesList) {
+                    Log.i("1234","messagelist"+ message.data.getImageUrl());
+                }
+                for (String message : remove_medialist) {
+                    Log.i("1234","remodtxt"+ message);
 
                 }
+                /*
+                for (MultiModel message : messagesList) {
+                    Log.i("1234","here");
+                    if (!remove_medialist.contains(message.data.getImageUrl())) {
+                        tempmessageList.add(message);
+                    }
+                }
+                for (MultiModel temp : tempmessageList) {
+                    Log.i("1234","templist"+ temp);
+
+                }
+*/
                 recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
@@ -182,6 +201,7 @@ public class Media_Fragment extends Fragment {
 
             }
         });
+
 
 
     }
