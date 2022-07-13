@@ -81,7 +81,7 @@ public class Media_Fragment extends Fragment {
 
         myRef = FirebaseDatabase.getInstance().getReference();
         ClearALl();
-        messagesList = GetDataFromFirebase();
+        GetDataFromFirebase();
 
         //-----SharedPreferences-----------
         remove_medialist = new ArrayList<>();
@@ -96,13 +96,15 @@ public class Media_Fragment extends Fragment {
                 tempmessageList.add(message);
             }
         }
+
         messagesList.clear();
+        /*
         for (MultiModel message : tempmessageList) {
 
             messagesList.add(message);
 
         }
-
+*/
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -141,7 +143,7 @@ public class Media_Fragment extends Fragment {
 
 
 
-    private ArrayList<MultiModel> GetDataFromFirebase() {
+    private void GetDataFromFirebase() {
 
         Query query = myRef.child("message");
         query.addValueEventListener(new ValueEventListener() {
@@ -181,7 +183,6 @@ public class Media_Fragment extends Fragment {
             }
         });
 
-        return messagesList;
 
     }
 
