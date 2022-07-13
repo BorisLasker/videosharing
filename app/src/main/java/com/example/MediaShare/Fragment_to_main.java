@@ -33,7 +33,6 @@ public class Fragment_to_main extends AppCompatActivity {
         String email = intent.getStringExtra("email");
         String username = intent.getStringExtra("username");
 
-
         Bundle bundle = new Bundle();
         bundle.putString("time",time);
         bundle.putString("email",email);

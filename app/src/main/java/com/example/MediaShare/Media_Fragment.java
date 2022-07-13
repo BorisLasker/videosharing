@@ -87,7 +87,6 @@ public class Media_Fragment extends Fragment {
                 intent.putExtra("time",info.data.getCurrentDateTime());
                 intent.putExtra("email",info.data.getEmail());
                 intent.putExtra("username",info.data.getUsername());
-                startActivity(intent);
                 ((Activity) getActivity()).overridePendingTransition(0, 0);
                 getActivity().startActivity(intent);
 
