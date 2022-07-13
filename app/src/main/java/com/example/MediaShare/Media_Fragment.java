@@ -3,6 +3,7 @@ package com.example.MediaShare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +30,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class Media_Fragment extends Fragment {
+
+    private static ArrayList<String> remove_medialist;
+
 
 
     RecyclerView recyclerView;
@@ -38,6 +44,8 @@ public class Media_Fragment extends Fragment {
     private DatabaseReference myRef;
 
     private ArrayList<MultiModel> messagesList;
+    private ArrayList<MultiModel>tempmessageList;
+
     private MultiAdapter recyclerAdapter;
     private Context mContext;
 
@@ -63,6 +71,7 @@ public class Media_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
 
         recyclerView = view.findViewById(R.id.recyclerview);
 
@@ -73,6 +82,26 @@ public class Media_Fragment extends Fragment {
         myRef = FirebaseDatabase.getInstance().getReference();
         ClearALl();
         messagesList = GetDataFromFirebase();
+
+        //-----SharedPreferences-----------
+        remove_medialist = new ArrayList<>();
+        for(Map.Entry<String,?> entry : prefs.getAll().entrySet()){
+            if (entry.getValue() instanceof String) {
+                remove_medialist.add(String.valueOf(entry.getValue()));
+            }
+        }
+
+        for (MultiModel message : messagesList) {
+            if (!remove_medialist.contains(message.data.getImageUrl())) {
+                tempmessageList.add(message);
+            }
+        }
+        messagesList.clear();
+        for (MultiModel message : tempmessageList) {
+
+            messagesList.add(message);
+
+        }
 
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -93,7 +122,12 @@ public class Media_Fragment extends Fragment {
             }
             @Override
             public void onLongClick(View view, int position) {
-
+                //-----SharedPreferences-----------
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(messagesList.get(position).data.getImageUrl(),messagesList.get(position).data.getImageUrl());
+                    editor.commit();
+                //-----end-----------
                 MultiModel message = messagesList.remove(position);
                 recyclerAdapter.setDataSet(messagesList);
                 recyclerView.setAdapter(recyclerAdapter);
