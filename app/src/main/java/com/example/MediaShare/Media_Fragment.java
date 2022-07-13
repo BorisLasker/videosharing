@@ -101,8 +101,12 @@ public class Media_Fragment extends Fragment {
         }
 
         ClearALl();
+<<<<<<< Updated upstream
         if(flag==0)
             GetDataFromFirebase();
+=======
+        GetDataFromFirebase();
+>>>>>>> Stashed changes
 
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -206,7 +210,10 @@ public class Media_Fragment extends Fragment {
             }
         });
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
     }
 
