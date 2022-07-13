@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,9 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,6 +64,8 @@ public class Media_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_media, container, false);
         Bundle message = getArguments();
@@ -83,11 +89,7 @@ public class Media_Fragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         myRef = FirebaseDatabase.getInstance().getReference();
-        //-----SharedPreferences-----------
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.commit();
-        //-----end-----------
+
 
 
         //-----SharedPreferences-----------
@@ -99,7 +101,8 @@ public class Media_Fragment extends Fragment {
         }
 
         ClearALl();
-        GetDataFromFirebase();
+        if(flag==0)
+            GetDataFromFirebase();
 
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -219,6 +222,49 @@ public class Media_Fragment extends Fragment {
         }
 
         messagesList = new ArrayList<>();
+    }
+
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+
+            case R.id.deletedmedia:
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+
+                      //-----SharedPreferences-----------
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.commit();
+                //-----end-----------
+                //-----SharedPreferences-----------
+                remove_medialist = new ArrayList<>();
+                for(Map.Entry<String,?> entry : prefs.getAll().entrySet()){
+                    if (entry.getValue() instanceof String) {
+                        remove_medialist.add(String.valueOf(entry.getValue()));
+                    }
+                }
+                Intent i = new Intent(getActivity(), Main.class);
+
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+                getActivity().startActivity(i);
+
+
+                return true;
+
+            default:
+                break;
+        }
+
+        return false;
     }
 
 
