@@ -101,12 +101,10 @@ public class Media_Fragment extends Fragment {
         }
 
         ClearALl();
-<<<<<<< Updated upstream
-        if(flag==0)
-            GetDataFromFirebase();
-=======
+
+
         GetDataFromFirebase();
->>>>>>> Stashed changes
+
 
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -175,19 +173,13 @@ public class Media_Fragment extends Fragment {
                     messagesList.add(multiModel);
                 }
 
-                for (MultiModel message : messagesList) {
-                    Log.i("1234","messagelist"+ message.data.getImageUrl());
-                }
-                for (String message : remove_medialist) {
-                    Log.i("1234","remodtxt"+ message);
-
-                }
 
                 for (MultiModel message : messagesList) {
                     Log.i("1234","list"+ message.data.getImageUrl());
                     if (!remove_medialist.contains(message.data.getImageUrl())){
                         Log.i("1234","here");
                         tempmessageList.add(message);
+                        Log.i("a", message.data.getImageUrl()+"  "+message.data.getCurrentDateTime());
                     }
                 }
                 messagesList.clear();
@@ -210,10 +202,7 @@ public class Media_Fragment extends Fragment {
             }
         });
 
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 
     }
 
@@ -259,12 +248,6 @@ public class Media_Fragment extends Fragment {
                         remove_medialist.add(String.valueOf(entry.getValue()));
                     }
                 }
-                Intent i = new Intent(getActivity(), Main.class);
-
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
-                getActivity().startActivity(i);
-
-
                 return true;
 
             default:
