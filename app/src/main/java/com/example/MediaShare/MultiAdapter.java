@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -59,16 +58,11 @@ public class MultiAdapter extends RecyclerView.Adapter {
                     Glide.with(context)
                             .load(dataSet.get(position).data.getImageUrl())
                                  .into(  ((ImageTypeViewHolder)holder).imageView);
-
-
-                    ((ImageTypeViewHolder) holder).textView_image.setText(dataSet.get(position).data.getUsername());
+                    
 
 
                     break;
                 case MultiModel.VIDEO_TYPE:
-
-                    ((VideoTypeViewHolder) holder).textView_video.setText(dataSet.get(position).data.getUsername());
-
                     VideoTypeViewHolder video_holder = ((VideoTypeViewHolder)holder);
                     video_holder.videoView.setVideoPath(object.data.getImageUrl());
                     video_holder.videoView.start();
@@ -84,22 +78,18 @@ public class MultiAdapter extends RecyclerView.Adapter {
     }
     public static class ImageTypeViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
-        TextView textView_image;
         ImageTypeViewHolder(View itemView){
             super(itemView);
             this.imageView = itemView.findViewById(R.id.imageView);
-            this.textView_image = itemView.findViewById(R.id.textView_image);
 
 
         }
     }
     public static class VideoTypeViewHolder extends RecyclerView.ViewHolder{
         VideoView videoView;
-        TextView textView_video;
         VideoTypeViewHolder(View itemView ){
             super(itemView);
             this.videoView = itemView.findViewById(R.id.videoView);
-            this.textView_video = itemView.findViewById(R.id.textView_video);
 
         }
     }
