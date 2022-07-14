@@ -3,6 +3,8 @@
     package="com.example.MediaShare">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -44,6 +46,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".CameraReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter android:priority="10000">
+                <action android:name="android.intent.action.CAMERA_BUTTON" />
+                <action android:name="com.android.camera.NEW_PICTURE" />
+                <data android:mimeType="image/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

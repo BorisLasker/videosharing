@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.FileObserver;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,6 +60,12 @@ public class LoginForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent("com.android.camera.NEW_PICTURE");
+        CameraReceiver myReceiver = new CameraReceiver();
+        sendBroadcast(intent);
+
+
         this.context = getApplicationContext();
 
         checkbox = findViewById(R.id.checkBox);
@@ -259,5 +267,15 @@ public class LoginForm extends AppCompatActivity {
         }
     }
 
+    FileObserver observer =new FileObserver("/mnt/extSd/DCIM/Camera/"){
 
+        @Override
+        public void onEvent(int event, String file) {
+            Log.i("lasker", "onReceive: ");
+
+            // TODO Auto-generated method stub
+            if(event == FileObserver.CREATE ){
+                Log.i("lasker", "onReceive: ");
+            }
+        }};
 }
