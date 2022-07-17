@@ -6,32 +6,44 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import android.widget.Toast;
 
 public class CameraReceiver extends BroadcastReceiver {
 
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent)
+    {
+        try
+        {
+            if (isOnline(context)) {
+                LoginForm.dialog(true);
 
-        String intent_action = intent.getAction();
-        Log.i("lasker", "onReceive: ");
+                Toast.makeText(context.getApplicationContext(), "Online Connect Internet", Toast.LENGTH_LONG).show();
+            } else {
+                LoginForm.dialog(false);
 
-        if (intent_action.equals(Intent.ACTION_CAMERA_BUTTON) ) {
-            abortBroadcast();
-            Log.i("lasker", "onReceive: ");
-            KeyEvent key = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                Toast.makeText(context.getApplicationContext(), "Connectivity Failure !!! ", Toast.LENGTH_LONG).show();
 
-            if ( key.getAction() == KeyEvent.ACTION_DOWN )
-                Toast.makeText(context, "press", Toast.LENGTH_SHORT).show();
-            else if ( key.getAction() == KeyEvent.ACTION_UP )
-                Toast.makeText(context, "release", Toast.LENGTH_SHORT).show();
-            else if ( key.getAction() == KeyEvent.ACTION_MULTIPLE )
-                Toast.makeText(context, "multi", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
+    public boolean isOnline(Context context) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            //should check null because in airplane mode it will be null
+            return (netInfo != null && netInfo.isConnected());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

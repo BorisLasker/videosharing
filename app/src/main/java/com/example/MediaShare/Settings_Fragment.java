@@ -72,7 +72,6 @@ public class Settings_Fragment extends Fragment {
         progressBar.setVisibility(View.INVISIBLE);
 
 
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

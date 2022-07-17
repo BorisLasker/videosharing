@@ -4,9 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.FileObserver;
 import android.preference.PreferenceManager;
@@ -41,14 +45,14 @@ public class LoginForm extends AppCompatActivity {
     private EditText EmailEditText;
     private EditText passwordEditText;
     private CheckBox checkbox;
-    private Button loginButton;
+    private static Button loginButton;
     private Button registerButton;
     public Context context;
 
     private static ArrayList<String> RememberMe;
     private static String file_path;
     public static final String FILE_NAME="RememberMe.txt";
-
+    private BroadcastReceiver mNetworkReceiver;
 
     private FirebaseDatabase firebaseDatabase;
 
@@ -60,10 +64,8 @@ public class LoginForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent intent = new Intent("com.android.camera.NEW_PICTURE");
-        CameraReceiver myReceiver = new CameraReceiver();
-        sendBroadcast(intent);
+       mNetworkReceiver = new CameraReceiver();
+       registerNetworkBroadcastForNougat();
 
 
         this.context = getApplicationContext();
@@ -92,6 +94,8 @@ public class LoginForm extends AppCompatActivity {
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
 
@@ -267,15 +271,22 @@ public class LoginForm extends AppCompatActivity {
         }
     }
 
-    FileObserver observer =new FileObserver("/mnt/extSd/DCIM/Camera/"){
 
-        @Override
-        public void onEvent(int event, String file) {
-            Log.i("lasker", "onReceive: ");
 
-            // TODO Auto-generated method stub
-            if(event == FileObserver.CREATE ){
-                Log.i("lasker", "onReceive: ");
-            }
-        }};
+    private void registerNetworkBroadcastForNougat() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+    public static void dialog(boolean value){
+
+        if(!value) {
+            loginButton.setEnabled(false);
+        }
+        else   loginButton.setEnabled(true);
+    }
 }
