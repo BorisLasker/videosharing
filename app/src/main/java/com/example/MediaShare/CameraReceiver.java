@@ -20,13 +20,11 @@ public class CameraReceiver extends BroadcastReceiver {
         try
         {
             if (isOnline(context)) {
-                LoginForm.dialog(true);
+                Settings_Fragment.dialog(true);
 
-                Toast.makeText(context.getApplicationContext(), "Online Connect Internet", Toast.LENGTH_LONG).show();
             } else {
-                LoginForm.dialog(false);
+                Settings_Fragment.dialog(false);
 
-                Toast.makeText(context.getApplicationContext(), "Connectivity Failure !!! ", Toast.LENGTH_LONG).show();
 
             }
         } catch (NullPointerException e) {

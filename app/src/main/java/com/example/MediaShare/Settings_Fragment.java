@@ -35,7 +35,7 @@ import java.util.Date;
 
 public class Settings_Fragment extends Fragment {
 
-    private Button uploadBtn;
+    private static Button uploadBtn;
     private ImageView imageView;
     private ProgressBar progressBar;
 
@@ -158,5 +158,14 @@ public class Settings_Fragment extends Fragment {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
 
+    }
+    public static void dialog(boolean value){
+
+        if(!value) {
+            uploadBtn.setEnabled(false);
+            Toast.makeText(uploadBtn.getContext(), "You are offline, You CAN'T UPLOAD A MEDIA", Toast.LENGTH_LONG).show();
+
+        }
+        else   uploadBtn.setEnabled(true);
     }
 }

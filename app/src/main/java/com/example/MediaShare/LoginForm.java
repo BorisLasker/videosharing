@@ -282,11 +282,5 @@ public class LoginForm extends AppCompatActivity {
             registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         }
     }
-    public static void dialog(boolean value){
 
-        if(!value) {
-            loginButton.setEnabled(false);
-        }
-        else   loginButton.setEnabled(true);
-    }
 }
