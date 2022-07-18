@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +15,10 @@
         android:noHistory="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Videosharing">
-
+        <service
+            android:name="com.example.MediaShare.ForegroundService"
+            android:enabled="true"
+            android:exported="true" />
         <activity
             android:name="com.example.MediaShare.LoginForm"
             android:exported="true">
