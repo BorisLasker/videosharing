@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -135,6 +136,10 @@ public class Settings_Fragment extends Fragment {
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(getActivity(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
+
+                        //FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/all",
+                       //         "New Media","Someone uploaded a new media", getActivity().getApplicationContext(), getActivity());
+                       // notificationsSender.SendNotifications();
                     }
                 });
             }

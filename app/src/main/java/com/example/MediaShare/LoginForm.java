@@ -2,6 +2,7 @@ package com.example.MediaShare;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.BroadcastReceiver;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,6 +51,9 @@ public class LoginForm extends AppCompatActivity {
     private Button registerButton;
     public Context context;
 
+    //private Notification_Channel channel_1;
+
+
     private static ArrayList<String> RememberMe;
     private static String file_path;
     public static final String FILE_NAME="RememberMe.txt";
@@ -64,9 +69,14 @@ public class LoginForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       mNetworkReceiver = new CameraReceiver();
-       registerNetworkBroadcastForNougat();
+        mNetworkReceiver = new CameraReceiver();
+        registerNetworkBroadcastForNougat();
 
+        new Notification_Channel();
+        //FirebaseMessaging.getInstance().subscribeToTopic("all");
+
+        Intent serviceIntent = new Intent(this, Foreground_Service.class);
+        startService(serviceIntent);
 
         this.context = getApplicationContext();
 
@@ -94,7 +104,6 @@ public class LoginForm extends AppCompatActivity {
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
-
 
             @Override
             public void onClick(View v) {
