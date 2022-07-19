@@ -158,7 +158,6 @@ public class Media_Fragment extends Fragment {
                 ClearALl();
 
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) {
-                    messagesList.clear();
                     Messages messages = new Messages();
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
                     messages.setCurrentDateTime(snapshot.child("currentDateTime").getValue().toString());
