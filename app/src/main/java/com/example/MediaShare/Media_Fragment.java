@@ -173,13 +173,8 @@ public class Media_Fragment extends Fragment {
                     }
 
                     messagesList.add(multiModel);
-                    Log.i("test", multiModel.getData().getImageUrl());
-
-                    for (MultiModel message : messagesList) {
-                        Log.i("test", message.getData().getImageUrl());
 
 
-                    }
 
                 }
 
