@@ -3,6 +3,7 @@ package com.example.MediaShare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MultiAdapter extends RecyclerView.Adapter {
@@ -142,4 +144,6 @@ public class MultiAdapter extends RecyclerView.Adapter {
     public void setDataSet(ArrayList<MultiModel> dataSet) {
         this.dataSet = dataSet;
     }
+
+
 }

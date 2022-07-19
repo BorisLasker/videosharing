@@ -1,8 +1,10 @@
 package com.example.MediaShare;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
@@ -11,10 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 
 import android.util.Log;
@@ -74,11 +78,11 @@ public class Media_Fragment extends Fragment {
     }
 
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-
         recyclerView = view.findViewById(R.id.recyclerview);
 
         LinearLayoutManager layoutManger = new LinearLayoutManager(getContext());
@@ -146,7 +150,7 @@ public class Media_Fragment extends Fragment {
     private void GetDataFromFirebase() {
 
         Query query = myRef.child("message");
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 ClearALl();
@@ -253,6 +257,7 @@ public class Media_Fragment extends Fragment {
 
         return false;
     }
+
 
 
 }

@@ -133,7 +133,7 @@ public class Settings_Fragment extends Fragment {
                         root.child(modelId).setValue(model);
 
                         progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getActivity(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
                     }
                 });
