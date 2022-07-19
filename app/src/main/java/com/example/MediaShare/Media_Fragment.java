@@ -151,10 +151,14 @@ public class Media_Fragment extends Fragment {
 
         Query query = myRef.child("message");
         query.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+
                 ClearALl();
+
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) {
+                    messagesList.clear();
                     Messages messages = new Messages();
                     messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
                     messages.setCurrentDateTime(snapshot.child("currentDateTime").getValue().toString());
