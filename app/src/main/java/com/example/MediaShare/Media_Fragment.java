@@ -150,7 +150,7 @@ public class Media_Fragment extends Fragment {
     private void GetDataFromFirebase() {
 
         Query query = myRef.child("message");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 ClearALl();
@@ -171,7 +171,16 @@ public class Media_Fragment extends Fragment {
                         multiModel = new MultiModel(MultiModel.VIDEO_TYPE, messages, "video");
 
                     }
+
                     messagesList.add(multiModel);
+                    Log.i("test", multiModel.getData().getImageUrl());
+
+                    for (MultiModel message : messagesList) {
+                        Log.i("test", message.getData().getImageUrl());
+
+
+                    }
+
                 }
 
 
