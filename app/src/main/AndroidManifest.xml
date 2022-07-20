@@ -49,6 +49,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.example.MediaShare.Notification_Reciever"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- Receiver for camera clicks -->
         <receiver android:name=".CameraReceiver"
             android:exported="true"
