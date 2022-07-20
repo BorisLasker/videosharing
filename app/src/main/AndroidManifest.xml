@@ -20,7 +20,7 @@
             android:enabled="true"
             android:exported="true" />
         <activity
-            android:name="com.example.MediaShare.Initiali"
+            android:name="com.example.MediaShare.LoginForm"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,13 +30,6 @@
         </activity>
 
         <activity android:name="com.example.MediaShare.SignUpForm"
-            android:exported="true">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name="com.example.MediaShare.LoginForm"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

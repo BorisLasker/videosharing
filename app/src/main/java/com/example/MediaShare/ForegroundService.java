@@ -30,14 +30,16 @@ public class ForegroundService extends Service {
     private DatabaseReference databaseReference;
     private long Media_counter;
     private DatabaseReference mSearchedLocationReference;
-    public static final String CHANNEL_ID = "ForegroundServiceChannel";
+    public static final String CHANNEL_ID_1 = "ForegroundServiceChannel";
+    public static final String CHANNEL_ID_2 = "NotificationChannel";
     @Override
     public void onCreate() {
 
         super.onCreate();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        createNotificationChannel();
+        createNotificationChannel1();
+        createNotificationChannel2();
 
         databaseReference.child("message").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -55,30 +57,27 @@ public class ForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.getAction() != null && intent.getAction().equals("STOP_ACTION")) {
-            Log.i("qwer", "killed ");
-            stopForeground(true);
-        }
-
-
-
-        String input = intent.getStringExtra("inputExtra");
-
         Intent notificationIntent = new Intent(this, Notification_Reciever.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 
-        //Intent notification_intent = new Intent(this, Notification_Reciever.class);
-        //PendingIntent contentIntent = PendingIntent.getBroadcast(this, 0, notification_intent, 0);
-
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Media Share")
-                .setContentText(input)
+        Notification Foreground_notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
+                .setContentTitle("Foreground Service")
+                .setContentText("Service is listening to new Media!")
                 .setSmallIcon(R.drawable.icon)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
                 .build();
 
+        Notification New_media_notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
+                .setContentTitle("Media Share")
+                .setContentText("New media is available!")
+                .setSmallIcon(R.drawable.icon)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        if (intent.getAction() != null && intent.getAction().equals("STOP_ACTION")) {
+            Log.i("qwer", "killed ");
+            startForeground(1, Foreground_notification);
+        }
         //do heavy work on a background thread
         //stopSelf();
 
@@ -91,7 +90,7 @@ public class ForegroundService extends Service {
                 if(Media_counter != snapshot.getChildrenCount()){
                     Log.i("123456", "hererere");
                     Media_counter = snapshot.getChildrenCount();
-                    startForeground(1, notification);
+                    startForeground(2,New_media_notification);
                     }
             }
 
@@ -104,8 +103,7 @@ public class ForegroundService extends Service {
         if(flag){
             flag = false;
             Log.i("123456", "flaghere");
-            startForeground(1, notification);
-
+            startForeground(1, Foreground_notification);
         }
 
         return START_STICKY;
@@ -120,15 +118,26 @@ public class ForegroundService extends Service {
         return null;
     }
 
-    private void createNotificationChannel() {
+    private void createNotificationChannel1() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
+            NotificationChannel serviceChannel1 = new NotificationChannel(
+                    CHANNEL_ID_1,
                     "Foreground Service Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_UNSPECIFIED
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
+            manager.createNotificationChannel(serviceChannel1);
+        }
+    }
+    private void createNotificationChannel2() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel2 = new NotificationChannel(
+                    CHANNEL_ID_2,
+                    "Notification Channel",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel2);
         }
     }
 }

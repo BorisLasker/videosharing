@@ -18,7 +18,6 @@ public class Initiali extends AppCompatActivity {
 
 
         Intent serviceIntent = new Intent(this, ForegroundService.class);
-        serviceIntent.putExtra("inputExtra", "New media available!");
         ContextCompat.startForegroundService(this, serviceIntent);
 
 
