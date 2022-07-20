@@ -26,6 +26,7 @@ import com.google.firebase.database.core.Constants;
 
 public class ForegroundService extends Service {
     private FirebaseDatabase firebaseDatabase;
+    private boolean flag = true;
     private DatabaseReference databaseReference;
     private long Media_counter;
     private DatabaseReference mSearchedLocationReference;
@@ -55,6 +56,7 @@ public class ForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (intent.getAction() != null && intent.getAction().equals("STOP_ACTION")) {
+            Log.i("qwer", "killed ");
             stopForeground(true);
         }
 
@@ -70,7 +72,7 @@ public class ForegroundService extends Service {
         //PendingIntent contentIntent = PendingIntent.getBroadcast(this, 0, notification_intent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Foreground Service")
+                .setContentTitle("Media Share")
                 .setContentText(input)
                 .setSmallIcon(R.drawable.icon)
                 .setContentIntent(pendingIntent)
@@ -84,16 +86,13 @@ public class ForegroundService extends Service {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Log.i("123456", String.valueOf(snapshot.getChildrenCount()));
-                try {
-                    if(Media_counter != snapshot.getChildrenCount()){
-                        Thread.sleep(2000);
-                        startForeground(1, notification);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Log.i("123456", String.valueOf(snapshot.getChildrenCount()) + Media_counter);
 
+                if(Media_counter != snapshot.getChildrenCount()){
+                    Log.i("123456", "hererere");
+                    Media_counter = snapshot.getChildrenCount();
+                    startForeground(1, notification);
+                    }
             }
 
             @Override
@@ -102,7 +101,14 @@ public class ForegroundService extends Service {
             }
         });
 
-        return START_NOT_STICKY;
+        if(flag){
+            flag = false;
+            Log.i("123456", "flaghere");
+            startForeground(1, notification);
+
+        }
+
+        return START_STICKY;
     }
     @Override
     public void onDestroy() {

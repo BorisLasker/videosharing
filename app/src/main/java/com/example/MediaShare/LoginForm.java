@@ -67,13 +67,6 @@ public class LoginForm extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-        Intent serviceIntent = new Intent(this, ForegroundService.class);
-        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
-        ContextCompat.startForegroundService(this, serviceIntent);
-
-
-
        mNetworkReceiver = new CameraReceiver();
        registerNetworkBroadcastForNougat();
 
