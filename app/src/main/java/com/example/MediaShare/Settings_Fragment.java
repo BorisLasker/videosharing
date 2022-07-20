@@ -135,6 +135,8 @@ public class Settings_Fragment extends Fragment {
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(getContext(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
+                        getActivity().recreate();
+
                     }
                 });
             }
