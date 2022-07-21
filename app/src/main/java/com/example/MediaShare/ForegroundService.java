@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,10 +37,12 @@ public class ForegroundService extends Service {
         super.onCreate();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-
         //Creates channels for the notification to be sent through.
         createNotificationChannel1();
+        Log.i("1234", "onCreate: ");
+
         createNotificationChannel2();
+
 
         databaseReference.child("message").addListenerForSingleValueEvent(new ValueEventListener() {
             // counts the media on the database.
@@ -124,7 +127,7 @@ public class ForegroundService extends Service {
             NotificationChannel serviceChannel1 = new NotificationChannel(
                     CHANNEL_ID_1,
                     "Foreground Service Channel",
-                    NotificationManager.IMPORTANCE_UNSPECIFIED
+                    NotificationManager.IMPORTANCE_LOW
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel1);

@@ -64,7 +64,7 @@ public class LoginForm extends AppCompatActivity {
 
         //Creating intent of the foreground service
         Intent serviceIntent = new Intent(this, ForegroundService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
+         ContextCompat.startForegroundService(this, serviceIntent);
 
         //Creating new instance of network reciever which extends broadcast reciever.
         mNetworkReceiver = new NetworkReceiver();
