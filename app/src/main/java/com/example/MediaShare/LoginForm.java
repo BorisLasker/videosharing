@@ -9,13 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.FileObserver;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,16 +60,16 @@ public class LoginForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.context = getApplicationContext();
 
+        //Creating intent of the foreground service
         Intent serviceIntent = new Intent(this, ForegroundService.class);
         ContextCompat.startForegroundService(this, serviceIntent);
 
+        //Creating new instance of network reciever which extends broadcast reciever.
+        mNetworkReceiver = new NetworkReceiver();
+        registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-        mNetworkReceiver = new CameraReceiver();
-        registerNetworkBroadcastForNougat();
-
-
-        this.context = getApplicationContext();
 
         checkbox = findViewById(R.id.checkBox);
         EmailEditText = findViewById(R.id.email);
@@ -82,37 +77,31 @@ public class LoginForm extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
 
-        // below line is used to get the
         // instance of our Firebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        // below line is used to get reference for our database.
+        // get reference for our database.
         databaseReference = firebaseDatabase.getReference();
 
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        //boolean remember = prefs.getBoolean("check_box_preference_1",false);
-
+        // Raw file innitiation for RememberMe feature.
         file_path=context.getFilesDir().getAbsolutePath();
-
-
         set_fields();
 
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
-
                 if (EmailEditText.getText().length() > 0 && passwordEditText.getText().length() > 0) {
 
-
                     int id = EmailEditText.getText().toString().hashCode();
+
+                    //search the entered email in the database.
                     databaseReference.child("User").child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
+                            //Entered email exists in database.
                             if (dataSnapshot.exists()) {
                                 if (dataSnapshot.child("password").getValue().equals(passwordEditText.getText().toString())) {
                                     String toastMessage = "Email: " + EmailEditText.getText().toString() + " \nPassword: " + passwordEditText.getText().toString();
@@ -121,12 +110,14 @@ public class LoginForm extends AppCompatActivity {
 
                                     String username = dataSnapshot.child("username").getValue().toString();
 
+                                    //Overriding the existing data in the raw file with the current email and password
                                     if (checkbox.isChecked()){
                                         writeData(EmailEditText.getText() + "\n" + passwordEditText.getText());
                                     }
                                     else writeData("");
 
 
+                                    //After logging in, passing the email and username to the main activity.
                                     Intent intent = new Intent(v.getContext(), Main.class);
                                     intent.putExtra("email", EmailEditText.getText().toString());
                                     intent.putExtra("username", username);
@@ -138,17 +129,15 @@ public class LoginForm extends AppCompatActivity {
 
                                 }
 
+                            //Email was not found in database
                             } else {
-                                // User does not exist. NOW call createUserWithEmailAndPassword
                                 Toast.makeText(LoginForm.this, "You need to register first!", Toast.LENGTH_LONG).show();
 
                             }
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
+                        public void onCancelled(DatabaseError databaseError) { }
                     });
 
 
@@ -161,10 +150,10 @@ public class LoginForm extends AppCompatActivity {
             }
         });
 
+        //Changes the raw file according to the checkbox
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(((CompoundButton) view).isChecked()){
                     writeData(EmailEditText.getText() + "\n" + passwordEditText.getText());
                 } else {
@@ -173,19 +162,17 @@ public class LoginForm extends AppCompatActivity {
             }
         });
 
-
+        //Moving to the register activity
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(v.getContext(), SignUpForm.class);
                 startActivity(intent);
-
-
             }
         });
     }
 
+    //If RememberMe was checked, sets the email and password with the file's content.
     private void set_fields() {
         RememberMe = new ArrayList<String>(Arrays.asList(readFile().split("\n")));
         if(RememberMe.size()>1){
@@ -195,18 +182,16 @@ public class LoginForm extends AppCompatActivity {
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-
-        getMenuInflater().inflate(R.menu.exit,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-
-
             case R.id.exit:
                 showDialog();
                 return true;
@@ -214,19 +199,16 @@ public class LoginForm extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
     }
 
-
+    //On selecting exit option
     private void showDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        MyAlertDialogFragment alertDialog =MyAlertDialogFragment.newInstance("Closing the application","Are you sure","Yes","No");
+        MyAlertDialogFragment alertDialog = MyAlertDialogFragment.newInstance("Closing the application","Are you sure","Yes","No");
         alertDialog.show(fm, "fragment_alert");
-
     }
 
-
+    //Reading and returning lines from the file.
     @NonNull
     private String readFile() {
         StringBuilder text= null;
@@ -277,16 +259,5 @@ public class LoginForm extends AppCompatActivity {
         }
     }
 
-
-
-    private void registerNetworkBroadcastForNougat() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        }
-    }
 
 }

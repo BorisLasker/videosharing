@@ -13,18 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
+
+// this activity is used to move from one fragment to another
 public class Fragment_to_main extends AppCompatActivity {
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_to_main);
-
-
-       // final Info_Fragment myFragment = new Info_Fragment();
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -33,12 +29,14 @@ public class Fragment_to_main extends AppCompatActivity {
         String email = intent.getStringExtra("email");
         String username = intent.getStringExtra("username");
 
+        // Set Fragment class Arguments
         Bundle bundle = new Bundle();
         bundle.putString("time",time);
         bundle.putString("email",email);
         bundle.putString("username",username);
-        // Set Fragment class Arguments
 
+
+        // moving to info_fragment
         Info_Fragment myFragment = new Info_Fragment();
         myFragment.setArguments(bundle);
         fragmentTransaction.add(R.id.fragment_container, myFragment).commit();

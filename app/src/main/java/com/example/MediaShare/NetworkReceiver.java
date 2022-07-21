@@ -11,19 +11,19 @@ import android.net.NetworkInfo;
 
 import android.widget.Toast;
 
-public class CameraReceiver extends BroadcastReceiver {
+public class NetworkReceiver extends BroadcastReceiver {
 
-
+    //When network connectivity changes, onRecieve start to work.
     @Override
     public void onReceive(Context context, Intent intent)
     {
         try
         {
             if (isOnline(context)) {
-                Settings_Fragment.dialog(true);
+                Settings_Fragment.is_network_connect(true);
 
             } else {
-                Settings_Fragment.dialog(false);
+                Settings_Fragment.is_network_connect(false);
 
 
             }
@@ -32,6 +32,7 @@ public class CameraReceiver extends BroadcastReceiver {
         }
     }
 
+    // Checks if the android is connected to the network
     public boolean isOnline(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

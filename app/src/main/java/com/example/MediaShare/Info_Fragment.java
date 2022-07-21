@@ -41,9 +41,7 @@ public class Info_Fragment extends Fragment {
             time = message.getString("time");
             username = message.getString("username");
             email= message.getString("email");
-        } else {
-        }
-
+        } else { }
         return view;
     }
 
@@ -51,13 +49,8 @@ public class Info_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         textView = view.findViewById(R.id.textView);
         textView.setText("Username "+username+"\n\n\n"+"Email "+email+"\n\n\n"+"uploaded a media on that date \n"+time);
-
-
-
-
     }
 }
 

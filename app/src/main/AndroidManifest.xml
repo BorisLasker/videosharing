@@ -58,8 +58,8 @@
             </intent-filter>
         </activity>
 
-        <!-- Receiver for camera clicks -->
-        <receiver android:name=".CameraReceiver"
+        <!-- Receiver for network clicks -->
+        <receiver android:name=".NetworkReceiver"
             android:exported="true"
 
             android:process=":background">

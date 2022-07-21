@@ -1,29 +1,21 @@
 package com.example.MediaShare;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import androidx.fragment.app.FragmentTransaction;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.Menu;
@@ -46,47 +38,32 @@ import java.util.Map;
 public class Media_Fragment extends Fragment {
 
     private static ArrayList<String> remove_medialist;
-
-
-
     RecyclerView recyclerView;
-
     private DatabaseReference myRef;
 
-    private ArrayList<MultiModel> messagesList;
-    private  ArrayList<MultiModel>tempmessageList = new ArrayList<MultiModel>();
+    private ArrayList<MultiMedia> MultiMedia_List;
+    private ArrayList<MultiMedia> TempMultiMedia_List = new ArrayList<MultiMedia>();
 
-    private MultiAdapter recyclerAdapter;
-
-
-    String email;
-    public Media_Fragment() {
-    }
+    private MultiMediaAdapter recyclerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_media, container, false);
-        Bundle message = getArguments();
-        if (message != null){
-            email = message.getString("email");
-        }else {
-        }
         return view;
     }
-
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-        recyclerView = view.findViewById(R.id.recyclerview);
 
+        //Shared prefs for the removed Media.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        //Recycler view creation and bounding.
+        recyclerView = view.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManger = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManger);
         recyclerView.setHasFixedSize(true);
@@ -94,8 +71,8 @@ public class Media_Fragment extends Fragment {
         myRef = FirebaseDatabase.getInstance().getReference();
 
 
-
         //-----SharedPreferences-----------
+        // adds the removed media from prefs to the remove_media array list
         remove_medialist = new ArrayList<>();
         for(Map.Entry<String,?> entry : prefs.getAll().entrySet()){
             if (entry.getValue() instanceof String) {
@@ -105,21 +82,17 @@ public class Media_Fragment extends Fragment {
 
         ClearALl();
 
-
         GetDataFromFirebase();
 
-
-
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-
             @Override
             public void onClick(View view, int position) {
 
-
+                //going bac to frag_to_main activity because we are in a fragment.
                 Intent intent = new Intent(getActivity(), Fragment_to_main.class);
 
-                MultiModel info = messagesList.get(position);
-
+                //info contains the multimedia object in the position that was clicked.
+                MultiMedia info = MultiMedia_List.get(position);
                 intent.putExtra("time",info.data.getCurrentDateTime());
                 intent.putExtra("email",info.data.getEmail());
                 intent.putExtra("username",info.data.getUsername());
@@ -127,26 +100,23 @@ public class Media_Fragment extends Fragment {
                 getActivity().startActivity(intent);
 
             }
+
+            // Long click deletes the media object from the recyclerview by adding it to the prefs.
             @Override
             public void onLongClick(View view, int position) {
 
                 //-----SharedPreferences-----------
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(messagesList.get(position).data.getImageUrl(),messagesList.get(position).data.getImageUrl());
+                    editor.putString(MultiMedia_List.get(position).data.getImageUrl(), MultiMedia_List.get(position).data.getImageUrl());
                     editor.commit();
                 //-----end-----------
-                MultiModel message = messagesList.remove(position);
-                recyclerAdapter.setDataSet(messagesList);
+
+                MultiMedia_List.remove(position);
+                recyclerAdapter.setDataSet(MultiMedia_List);
                 recyclerView.setAdapter(recyclerAdapter);
-            }
-                 }));
-            }
-
-
-
-
-
+            }}));
+    }
 
 
     private void GetDataFromFirebase() {
@@ -160,77 +130,60 @@ public class Media_Fragment extends Fragment {
                 ClearALl();
 
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) {
-                    Messages messages = new Messages();
-                    messages.setImageUrl(snapshot.child("imageUrl").getValue().toString());
-                    messages.setCurrentDateTime(snapshot.child("currentDateTime").getValue().toString());
-                    messages.setUsername(snapshot.child("username").getValue().toString());
-                    messages.setEmail(snapshot.child("email").getValue().toString());
+                    Media media = new Media();
+                    media.setImageUrl(snapshot.child("imageUrl").getValue().toString());
+                    media.setCurrentDateTime(snapshot.child("currentDateTime").getValue().toString());
+                    media.setUsername(snapshot.child("username").getValue().toString());
+                    media.setEmail(snapshot.child("email").getValue().toString());
 
                     //TODO: POSSIBLE TYPES OF VIDEOS
-                    MultiModel multiModel = null;
+                    MultiMedia multimedia = null;
 
-                    if (messages.getImageUrl().contains(".png") || messages.getImageUrl().contains(".jpg")) {
-                        multiModel = new MultiModel(MultiModel.IMAGE_TYPE, messages, "image");
+                    //if the current media is a picture.
+                    if (media.getImageUrl().contains(".png") || media.getImageUrl().contains(".jpg")) {
+                        multimedia = new MultiMedia(MultiMedia.IMAGE_TYPE, media, "image");
 
-                    } else if (messages.getImageUrl().contains(".mp4")) {
-                        multiModel = new MultiModel(MultiModel.VIDEO_TYPE, messages, "video");
-
+                        //if the current media is a video file.
+                    } else if (media.getImageUrl().contains(".mp4")) {
+                        multimedia = new MultiMedia(MultiMedia.VIDEO_TYPE, media, "video");
                     }
-
-                    messagesList.add(multiModel);
-
-
-
+                    MultiMedia_List.add(multimedia);
                 }
 
-
-                for (MultiModel message : messagesList) {
-                    Log.i("1234","list"+ message.data.getImageUrl());
-                    if (!remove_medialist.contains(message.data.getImageUrl())){
-                        Log.i("1234","here");
-                        tempmessageList.add(message);
-                        Log.i("a", message.data.getImageUrl()+"  "+message.data.getCurrentDateTime());
+                for (MultiMedia multimedia : MultiMedia_List) {
+                    //temp list contains only the media that was not removed.
+                    if (!remove_medialist.contains(multimedia.data.getImageUrl())){
+                        TempMultiMedia_List.add(multimedia);
                     }
                 }
-                messagesList.clear();
-                for (MultiModel temp : tempmessageList) {
-                    messagesList.add(temp);
-                    Log.i("12345","templist"+ temp);
 
+                //updating the multimedia list to contain only the not removed media.
+                MultiMedia_List.clear();
+                for (MultiMedia temp : TempMultiMedia_List) {
+                    MultiMedia_List.add(temp);
                 }
 
-
-                recyclerAdapter = new MultiAdapter(messagesList,getContext().getApplicationContext());
+                // After the Multimedia list is complete, create recyclerview.
+                recyclerAdapter = new MultiMediaAdapter(MultiMedia_List,getContext().getApplicationContext());
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
 
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
-
-
-
     }
 
-
+    // clears the data of the adapter and multimedia list
     private void ClearALl() {
-        if (messagesList != null) {
-            messagesList.clear();
-
+        if (MultiMedia_List != null) {
+            MultiMedia_List.clear();
             if (recyclerAdapter != null) {
                 recyclerAdapter.notifyDataSetChanged();
             }
-
         }
-
-        messagesList = new ArrayList<>();
+        MultiMedia_List = new ArrayList<>();
     }
-
-
 
 
     @Override
@@ -238,37 +191,27 @@ public class Media_Fragment extends Fragment {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-
             case R.id.deletedmedia:
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-
-                      //-----SharedPreferences-----------
+                //-----SharedPreferences-----------
+                //Clearing the prefs so the media is restored.
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.clear();
                 editor.commit();
                 //-----end-----------
                 //-----SharedPreferences-----------
+
                 remove_medialist = new ArrayList<>();
-                for(Map.Entry<String,?> entry : prefs.getAll().entrySet()){
-                    if (entry.getValue() instanceof String) {
-                        remove_medialist.add(String.valueOf(entry.getValue()));
-                    }
-                }
                 getActivity().recreate();
-
                 return true;
-
             default:
                 break;
         }
-
         return false;
     }
-
-
-
 }

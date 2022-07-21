@@ -30,38 +30,21 @@ public class MyAlertDialogFragment extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         alertDialogBuilder.setTitle(title);
-
         alertDialogBuilder.setMessage(msg);
-
         alertDialogBuilder.setPositiveButton(pos,  new DialogInterface.OnClickListener() {
-
+            //User clicked on YES
             @Override
-
             public void onClick(DialogInterface dialog, int which) {
                 getActivity().moveTaskToBack(true);
                 getActivity().finish();
-
-
             }
-
         });
-
         alertDialogBuilder.setNegativeButton(neg, new DialogInterface.OnClickListener() {
-
             @Override
-
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
-
             }
-
         });
-
-
-
         return alertDialogBuilder.create();
-
     }
-
 }

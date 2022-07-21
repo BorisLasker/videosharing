@@ -7,7 +7,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -28,15 +27,16 @@ public class Main extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
+        // Method to create adapter with tabs, Each tab is a fragment.
+        // Adapter_Tabs is called
         Adapter_Tabs adapter = new Adapter_Tabs(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
-
+        //Extra data that was transfered from login page.
         Intent intent = getIntent();
-
         String email = intent.getStringExtra("email");
         String username = intent.getStringExtra("username");
 
-
+        //transfer the User data to the fragments
         Bundle bundle = new Bundle();
         bundle.putString("email",email);
         bundle.putString("username",username);
@@ -49,7 +49,6 @@ public class Main extends AppCompatActivity {
 
 
 
-
         adapter.AddFragmentMedia(fragment_media,"Media");
         adapter.AddFragmentSettings(fragment,"Settings");
         viewPager.setAdapter(adapter);
@@ -58,7 +57,7 @@ public class Main extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
 
-        getMenuInflater().inflate(R.menu.exit,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 

@@ -3,6 +3,8 @@ package com.example.MediaShare;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
+
+//User Class
 public class User {
 
     public  String password;

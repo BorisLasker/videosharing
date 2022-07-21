@@ -1,6 +1,6 @@
 package com.example.MediaShare;
 
-public class Messages {
+public class Media {
 
 
     private  String username;
@@ -24,7 +24,7 @@ public class Messages {
         this.email = email;
     }
 
-    public Messages(String imageUrl, String currentDateTime, String email, String username) {
+    public Media(String imageUrl, String currentDateTime, String email, String username) {
         this.imageUrl = imageUrl;
         this.currentDateTime= currentDateTime;
         this.email = email;
@@ -41,7 +41,7 @@ public class Messages {
     }
 
 
-    public Messages() {
+    public Media() {
 
     }
 

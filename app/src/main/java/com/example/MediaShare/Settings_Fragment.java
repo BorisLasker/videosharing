@@ -4,11 +4,8 @@ package com.example.MediaShare;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +30,16 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Date;
 
+// Fragment for Uploading Media to the database.
 public class Settings_Fragment extends Fragment {
 
     private static Button uploadBtn;
     private ImageView imageView;
     private ProgressBar progressBar;
 
-    private Uri image;
+    private Uri image_URI;
 
+    //Reference to the message table in the database.
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference("message");
     private StorageReference reference = FirebaseStorage.getInstance().getReference();
     String email;
@@ -49,8 +48,6 @@ public class Settings_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings_image, container, false);
-        //email = getArguments().getString("email");
-         //username = getArguments().getString("username");
         Bundle message = getArguments();
         if (message != null){
             email = message.getString("email");
@@ -64,14 +61,13 @@ public class Settings_Fragment extends Fragment {
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( v, savedInstanceState);
 
-
         uploadBtn = v.findViewById(R.id.upload_btn);
         progressBar = v.findViewById(R.id.progressBar);
         imageView = v.findViewById(R.id.imageView);
 
         progressBar.setVisibility(View.INVISIBLE);
 
-
+        //When image is clicked, opens the gallery in the user's phone.
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,38 +78,32 @@ public class Settings_Fragment extends Fragment {
             }
         });
 
-
+        //Listener to the upload button, if image is not selected, notifies the user.
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (image != null){
-                    uploadToFirebase(image);
+                if (image_URI != null){
+                    uploadToFirebase(image_URI);
                 }else{
                     Toast.makeText(getActivity(), "Please Select Image", Toast.LENGTH_SHORT).show();
                 }
             }
-
-
         });
-
     }
 
-
+    // When the user chose a Media file, this function is called.
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode ==2 && resultCode == Activity.RESULT_OK && data != null){
+            image_URI = data.getData();
 
-            image = data.getData();
-            imageView.setImageURI(image);
-
+            //Preview of the umage before the upload.
+            imageView.setImageURI(image_URI);
         }
     }
 
-
-
-
+    //After the media was chosen, uploads to database.
     private void uploadToFirebase(Uri uri) {
 
         final StorageReference  fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
@@ -125,21 +115,22 @@ public class Settings_Fragment extends Fragment {
                     public void onSuccess(Uri uri) {
                         String currentDateTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
 
+                        //Creating a new Media instance
+                        Media media = new Media(uri.toString(),currentDateTime,email,username);
 
-
-                        Messages model = new Messages(uri.toString(),currentDateTime,email,username);
-                        //int  id =   email.toString().hashCode();
+                        //Creating a unique key to each Media instance
                         String modelId = root.push().getKey();
-                        root.child(modelId).setValue(model);
+                        root.child(modelId).setValue(media);
 
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(getContext(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
                         getActivity().recreate();
-
                     }
                 });
             }
+
+            //While the media is uploaded, progressbar is visible.
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
@@ -155,18 +146,16 @@ public class Settings_Fragment extends Fragment {
     }
 
     private String getFileExtension(Uri mUri){
-
         ContentResolver cr = getActivity().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
-
     }
-    public static void dialog(boolean value){
 
+    //If not connected, the network reciever disables the button.
+    public static void is_network_connect(boolean value){
         if(!value) {
             uploadBtn.setEnabled(false);
             Toast.makeText(uploadBtn.getContext(), "You are offline, You CAN'T UPLOAD A MEDIA", Toast.LENGTH_LONG).show();
-
         }
         else   uploadBtn.setEnabled(true);
     }

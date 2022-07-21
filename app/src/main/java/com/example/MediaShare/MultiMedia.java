@@ -1,18 +1,11 @@
 package com.example.MediaShare;
 
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.stream.Stream;
-
-public class MultiModel {
+public class MultiMedia {
     public static final int IMAGE_TYPE = 0;
     public static final int VIDEO_TYPE = 1;
 
     public int type;
-    public Messages data;
+    public Media data;
     public String text;
 
     public static int getImageType() {
@@ -31,11 +24,11 @@ public class MultiModel {
         this.type = type;
     }
 
-    public Messages getData() {
+    public Media getData() {
         return data;
     }
 
-    public void setData(Messages data) {
+    public void setData(Media data) {
         this.data = data;
     }
 
@@ -47,7 +40,7 @@ public class MultiModel {
         this.text = text;
     }
 
-    public MultiModel(int type, Messages data, String text) {
+    public MultiMedia(int type, Media data, String text) {
         this.type = type;
         this.data = data;
         this.text = text;

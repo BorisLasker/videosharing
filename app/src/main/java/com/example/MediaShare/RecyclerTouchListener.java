@@ -7,6 +7,10 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+
+
+//Protocol for recyclerview to use clicks listeners.
+
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     private GestureDetector gestureDetector;
     private ClickListener clickListener;

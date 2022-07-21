@@ -49,7 +49,6 @@ public class SignUpForm extends AppCompatActivity {
 
         register = findViewById(R.id.buttonAcount);
 
-        // below line is used to get the
         // instance of our Firebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -59,13 +58,13 @@ public class SignUpForm extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 checkDataEntered();
                 writeNewUser();
             }
         });
     }
 
+    //Check if the entered email is in the current format.
     boolean isEmail(EditText text) {
         CharSequence email = text.getText().toString();
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
@@ -76,75 +75,66 @@ public class SignUpForm extends AppCompatActivity {
         return TextUtils.isEmpty(str);
     }
 
+    //Check if the entered fields are correct.
     void checkDataEntered() {
-
         if (isEmail(email) == false) {
             email.setError("Enter valid email!");
         }
-
         if (isEmpty(password)) {
             password.setError("You must enter password!");
-
         }
     }
-    public void writeNewUser() {
 
+    //Creating User object with 3 fields
+    //Saving the User in the database
+    public void writeNewUser() {
         User user = new User(firstName.getText().toString(), email.getText().toString(),password.getText().toString());
             int  id =   email.getText().toString().hashCode();
         databaseReference.child("User").child(String.valueOf(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                // use "username" already exists
+                // Let the user know he needs to pick another username.
                 if(dataSnapshot.exists()){
                     Toast.makeText(SignUpForm.this, "user already exists", Toast.LENGTH_LONG).show();
-                    // use "username" already exists
-                    // Let the user know he needs to pick another username.
+
                 } else {
-                    // User does not exist. NOW call createUserWithEmailAndPassword
-                    //Saving the user
+                    // User does not exist, Saving the user.
                     databaseReference.child("User").child(String.valueOf(id)).setValue(user);
                     //displaying a success toast
                     Toast.makeText(SignUpForm.this, "user added", Toast.LENGTH_LONG).show();
+
+                    //After registeration, going back to login screen.
                     Intent intent = new Intent(view.getContext(), LoginForm.class);
                     startActivity(intent);
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) { }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-
-        getMenuInflater().inflate(R.menu.exit,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-
-
             case R.id.exit:
                 showDialog();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
     }
-
 
     private void showDialog() {
         FragmentManager fm = getSupportFragmentManager();
         MyAlertDialogFragment alertDialog =MyAlertDialogFragment.newInstance("Closing the application","Are you sure","Yes","No");
         alertDialog.show(fm, "fragment_alert");
-
     }
 }
 

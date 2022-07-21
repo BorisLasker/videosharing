@@ -30,26 +30,29 @@ public class ForegroundService extends Service {
     private DatabaseReference databaseReference;
     private long Media_counter;
     private DatabaseReference mSearchedLocationReference;
+
     public static final String CHANNEL_ID_1 = "ForegroundServiceChannel";
     public static final String CHANNEL_ID_2 = "NotificationChannel";
+
     @Override
     public void onCreate() {
 
         super.onCreate();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+
+        //Creates channels for the notification to be sent through.
         createNotificationChannel1();
         createNotificationChannel2();
 
         databaseReference.child("message").addListenerForSingleValueEvent(new ValueEventListener() {
+            // counts the media on the database.
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Media_counter = snapshot.getChildrenCount();
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
 
@@ -57,6 +60,7 @@ public class ForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        // When User clicks on new media notification , moves to Notification_reciever.
         Intent notificationIntent = new Intent(this, Notification_Reciever.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
@@ -74,23 +78,23 @@ public class ForegroundService extends Service {
                 .setContentIntent(pendingIntent)
                 .build();
 
+
+        // called from notification reciever
         if (intent.getAction() != null && intent.getAction().equals("STOP_ACTION")) {
-            Log.i("qwer", "killed ");
+
+            //When user clicks on new media notifcation, Notification_Reciever restarts the service with "STOP_ACTION".
             startForeground(1, Foreground_notification);
         }
-        //do heavy work on a background thread
-        //stopSelf();
 
+        //Listening to changes in the database.
         databaseReference.child("message").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Log.i("123456", String.valueOf(snapshot.getChildrenCount()) + Media_counter);
-
                 if(Media_counter != snapshot.getChildrenCount()){
-                    Log.i("123456", "hererere");
                     Media_counter = snapshot.getChildrenCount();
-                    startForeground(2,New_media_notification);
+                    //When data changed, creates a new media notification.
+                    startForeground(2, New_media_notification);
                     }
             }
 
@@ -100,9 +104,9 @@ public class ForegroundService extends Service {
             }
         });
 
+        // First time notification, from login screen.
         if(flag){
             flag = false;
-            Log.i("123456", "flaghere");
             startForeground(1, Foreground_notification);
         }
 
@@ -117,6 +121,7 @@ public class ForegroundService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 
     private void createNotificationChannel1() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
