@@ -39,8 +39,6 @@ public class ForegroundService extends Service {
         databaseReference = firebaseDatabase.getReference();
         //Creates channels for the notification to be sent through.
         createNotificationChannel1();
-        Log.i("1234", "onCreate: ");
-
         createNotificationChannel2();
 
 
