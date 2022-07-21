@@ -21,15 +21,15 @@ public class Notification_Reciever extends AppCompatActivity {
     }
 
     private void onReceive() {
-        //Intent activityIntent = new Intent(this, LoginForm.class);
+        Intent activityIntent = new Intent(this, LoginForm.class);
         //activityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-       // this.startActivity(activityIntent);
+        this.startActivity(activityIntent);
         // Start Services
         Intent serviceIntent = new Intent(this, ForegroundService.class);
         serviceIntent.setAction("STOP_ACTION");
         ContextCompat.startForegroundService(this, serviceIntent);
 
-        finish();
+
     }
 }
 
