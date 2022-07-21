@@ -85,6 +85,12 @@ public class Media_Fragment extends Fragment {
         GetDataFromFirebase();
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            /*
+
+            require 1 2 3
+
+
+             */
             @Override
             public void onClick(View view, int position) {
 
@@ -116,6 +122,12 @@ public class Media_Fragment extends Fragment {
                 recyclerAdapter.setDataSet(MultiMedia_List);
                 recyclerView.setAdapter(recyclerAdapter);
             }}));
+            /*
+
+            require 1 2 3
+
+
+             */
     }
 
 

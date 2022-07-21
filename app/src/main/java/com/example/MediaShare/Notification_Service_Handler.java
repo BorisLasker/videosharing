@@ -10,7 +10,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-public class Notification_Reciever extends AppCompatActivity {
+public class Notification_Service_Handler extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

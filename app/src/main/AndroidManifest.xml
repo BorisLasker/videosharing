@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.MediaShare.Notification_Reciever"
+        <activity android:name="com.example.MediaShare.Notification_Service_Handler"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
